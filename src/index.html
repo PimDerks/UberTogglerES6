@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>UberToggler</title>
+</head>
+<body>
+<p>Blaat.</p>
+
+<div id="contain">
+    <p>Focus. <a href="#">A</a> <a href="#">B</a></p>
+    <button id="disable-contain">Disable contain</button>
+</div>
+
+<button id="enable-contain">Enable contain</button>
+
+<div id="exclude">
+    <p>No focus. <a href="#">C</a></p>
+</div>
+
+<button id="enable-exclude">Enable exclude</button>
+<button id="disable-exclude">Disable exclude</button>
+
+<div id="outside">
+    <a href="#">D</a>
+</div>
+
+<script src="bundle.js"></script>
+
+<style>
+    [tabindex='-1']{
+        opacity: .5;
+    }
+</style>
+
+</body>
+</html>
