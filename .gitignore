@@ -4,6 +4,7 @@
 .svn
 .CVS
 .idea
+dest/
 *.css
 *.map
 node_modules

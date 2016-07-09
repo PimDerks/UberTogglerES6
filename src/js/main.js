@@ -1,12 +1,8 @@
 require('babel-core/register');
 
-var Mediator = require('./utils/Mediator'),
-    Focus = require('./utils/Focus'),
+var Focus = require('./utils/Focus'),
+    Toggle = require('./lib/Toggle'),
     $$ = require('./utils/QuerySelector');
-
-$$('div', document.body);
-
-var m = new Mediator.getInstance();
 
 // focus contain test
 var contain = document.getElementById('contain');
@@ -23,3 +19,10 @@ var enableExclude = document.getElementById('enable-exclude');
 var disableExclude = document.getElementById('disable-exclude');
 enableExclude.addEventListener('click', function(){ excludeFocus.exclude() });
 disableExclude.addEventListener('click', function(){ excludeFocus.disableExclude(); });
+
+// create Toggles
+var toggles = $$('.toggle');
+toggles.forEach(t => {
+    "use strict";
+    new Toggle(t);
+});

@@ -23,13 +23,26 @@
     <a href="#">D</a>
 </div>
 
-<script src="bundle.js"></script>
+<div class="toggle" id="toggle">Toggle</div>
+<a href="#toggle">Toggle toggle</a>
 
 <style>
     [tabindex='-1']{
         opacity: .5;
     }
-</style>
 
+    .toggle {
+        background: green;
+    }
+
+    .toggle.activated {
+        background: blue;
+    }
+
+    .toggle.deactivated {
+        background: red;
+    }
+</style>
+<script src="bundle.js"></script>
 </body>
 </html>
