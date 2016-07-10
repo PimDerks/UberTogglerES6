@@ -2,6 +2,8 @@
 
 var _instance;
 
+var Group = require('./Group');
+
 class Manager {
 
     constructor(){

@@ -1,8 +1,6 @@
 'use strict';
 
-var Mediator = require('../utils/Mediator'),
-    Manager = require('./Manager'),
-    Toggle = require('./Toggle');
+var Toggle = require('./Toggle');
 
 module.exports = class Trigger extends Toggle {
 
@@ -119,7 +117,6 @@ module.exports = class Trigger extends Toggle {
                 }
             });
         }
-
         return result;
     }
 
@@ -167,6 +164,7 @@ module.exports = class Trigger extends Toggle {
             active: this.isActive(),
             targets: this._targets
         });
+
 
     }
 

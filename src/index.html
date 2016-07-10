@@ -23,17 +23,254 @@
     <a href="#">D</a>
 </div>
 
+<style>
+    .toggle { background: green; }
+    .activated { background: blue; }
+    .activated::after { content: ' - active'; white-space: nowrap; }
+    .deactivated { background: red; }
+    .deactivated::after { content: ' - not active'; white-space: nowrap; }
+
+    input.activated {
+        outline: 1px solid blue;
+    }
+
+    input.deactivated {
+        outline: 1px solid red;
+    }
+
+    input.activated::after,
+    input.deactivated::after{ display: none; }
+
+    [aria-hidden="true"]{
+        display: none;
+    }
+
+    [aria-disabled],
+    [data-active]{
+        transition: all 100ms ease-out;
+    }
+
+    [aria-active="false"]
+        [aria-disabled="true"]{
+        opacity: .5;
+        pointer-events: none;
+    }
+</style>
+<body>
+
+<h1>UberToggle</h1>
+
+<h2>Toggle with a single trigger (anchor)</h2>
 <div class="toggle" id="toggle">Toggle</div>
-<button aria-controls="toggle">Toggle toggle</button>
+<a href="#toggle" class="trigger">Trigger</a>
 
-<div class="toggle" id="toggle1" data-active="true">Toggle</div>
-<button aria-controls="toggle1">Toggle toggle</button>
+<h2>Toggle with a single trigger (button)</h2>
+<div class="toggle" id="toggle-button">Toggle</div>
+<button type="button" aria-controls="toggle-button" class="trigger">Trigger</button>
 
-<div class="toggle" id="toggle2" data-outside>Toggle</div>
-<button aria-controls="toggle2">Toggle toggle</button>
+<h2>Toggle disables when clicking outside</h2>
+<div class="toggle" id="toggle-outside-both" data-outside="both">Toggle Both</div>
+<button type="button" aria-controls="toggle-outside-both" class="trigger">Trigger</button>
+<br />
+<br />
+<div class="toggle" id="toggle-outside-mouse" data-outside="mouse">Toggle Mouse</div>
+<button type="button" aria-controls="toggle-outside-mouse" class="trigger">Trigger</button>
+<br />
+<br />
+<div class="toggle" id="toggle-outside-click" data-outside="click">Toggle Click</div>
+<button type="button" aria-controls="toggle-outside-click" class="trigger">Trigger</button>
 
-<div class="toggle" id="toggle3" data-outside="both">Toggle</div>
-<button aria-controls="toggle3">Toggle toggle</button>
+<p>Use <code>both</code>, <code>mouse</code> or <code>click</code> to determine when to disable the toggle.</p>
+
+<h2>Tab</h2>
+<a href="#tab-1">Tab 1</a>
+<a href="#tab-2">Tab 2</a>
+<a href="#tab-3">Tab 3</a>
+<div class="toggle" id="tab-1" data-group="group" aria-hidden="false" data-group-default="true">Tab 1</div>
+<div class="toggle" id="tab-2" data-group="group" aria-hidden="true">Tab 2</div>
+<div class="toggle" id="tab-3" data-group="group" aria-hidden="true">Tab 3</div>
+
+<h2>Toggle with multiple triggers</h2>
+<div class="toggle" id="toggle-multiple">Toggle</div>
+<a href="#toggle-multiple" class="trigger">Trigger A</a>
+<a href="#toggle-multiple" class="trigger">Trigger B</a>
+
+<h2>Trigger with multiple targets</h2>
+<div class="toggle" id="multiple-target-a">Toggle A</div>
+<div class="toggle" id="multiple-target-b">Toggle B</div>
+<button type="button" aria-controls="multiple-target-a multiple-target-b" class="trigger">Trigger</button>
+
+<h2>Trigger with multiple targets and multiple triggers</h2>
+<div class="toggle" id="multiple-target-a1">Toggle A</div>
+<div class="toggle" id="multiple-target-b1">Toggle B</div>
+<button type="button" aria-controls="multiple-target-a1 multiple-target-b1" class="trigger">Trigger A</button>
+<button type="button" aria-controls="multiple-target-a1 multiple-target-b1" class="trigger">Trigger B</button>
+
+<h2>Toggle Group</h2>
+<button class="trigger" type="button" aria-controls="toggle-group-1">Trigger 1</button>
+<button class="trigger" type="button" aria-controls="toggle-group-2">Trigger 2</button>
+<button class="trigger" type="button" aria-controls="toggle-group-3">Trigger 3</button>
+
+<div class="toggle" id="toggle-group-1" data-group="group">Toggle 1</div>
+<div class="toggle" id="toggle-group-2" data-group="group">Toggle 2</div>
+<div class="toggle" id="toggle-group-3" data-group="group">Toggle 3</div>
+
+<h2>Toggle Group with multiple triggers</h2>
+<button class="trigger" type="button" aria-controls="toggle-group-4">Trigger 1A</button>
+<button class="trigger" type="button" aria-controls="toggle-group-4">Trigger 1B</button>
+<button class="trigger" type="button" aria-controls="toggle-group-5">Trigger 2A</button>
+<button class="trigger" type="button" aria-controls="toggle-group-5">Trigger 2B</button>
+<button class="trigger" type="button" aria-controls="toggle-group-6">Trigger 3A</button>
+<button class="trigger" type="button" aria-controls="toggle-group-6">Trigger 3B</button>
+
+<div class="toggle" id="toggle-group-4" data-group="group-2">Toggle 1</div>
+<div class="toggle" id="toggle-group-5" data-group="group-2">Toggle 2</div>
+<div class="toggle" id="toggle-group-6" data-group="group-2">Toggle 3</div>
+
+<h2>Using inputs as triggers</h2>
+
+<h3>Input</h3>
+<input type="text" aria-controls="input-text" />
+<div class="toggle" id="input-text">Input Text Toggle</div>
+<h3>Checkboxes</h3>
+
+<h4>Not checked</h4>
+<input type="checkbox" aria-controls="input-toggle" />
+<div class="toggle" id="input-toggle">Input Toggle</div>
+
+<h4>Checked</h4>
+<input type="checkbox" aria-controls="input-toggle2" checked="checked" />
+<div class="toggle" id="input-toggle2">Input Toggle</div>
+
+<h3>Radio Buttons</h3>
+<input type="radio" aria-controls="input-radio-1" name="radio" />
+<input type="radio" aria-controls="input-radio-2" name="radio" />
+<input type="radio" aria-controls="input-radio-3" name="radio" />
+<div class="toggle" id="input-radio-1" data-group="input-radio">Toggle 1</div>
+<div class="toggle" id="input-radio-2" data-group="input-radio">Toggle 2</div>
+<div class="toggle" id="input-radio-3" data-group="input-radio">Toggle 3</div>
+
+<h3>Radio Buttons with multiple trigger</h3>
+<p>Please note that the radio buttons obviously must be in a different group to allow two of them to be active at the same time. No idea why you would do this, but it's possible! :)</p>
+<input type="radio" aria-controls="input-radio-4" name="radio-a" />
+<input type="radio" aria-controls="input-radio-4" name="radio-b" />
+<input type="radio" aria-controls="input-radio-5" name="radio-a" checked="checked" />
+<input type="radio" aria-controls="input-radio-5" name="radio-b" />
+<input type="radio" aria-controls="input-radio-6" name="radio-a" />
+<input type="radio" aria-controls="input-radio-6" name="radio-b" />
+<div class="toggle" id="input-radio-4" data-group="input-radio">Toggle 1</div>
+<div class="toggle" id="input-radio-5" data-group="input-radio">Toggle 2</div>
+<div class="toggle" id="input-radio-6" data-group="input-radio">Toggle 3</div>
+
+<h3>Select</h3>
+<select aria-controls="select-1 select-2 select-3">
+    <option value="1" aria-controls="select-1">Toggle 1</option>
+    <option value="2" aria-controls="select-2">Toggle 2</option>
+    <option value="3" aria-controls="select-3">Toggle 3</option>
+</select>
+<div class="toggle" id="select-1" data-group="select">Toggle 1</div>
+<div class="toggle" id="select-2" data-group="select">Toggle 2</div>
+<div class="toggle" id="select-3" data-group="select">Toggle 3</div>
+
+<h3>Select with a different option selected</h3>
+<select aria-controls="select-4 select-5 select-6">
+    <option value="4" aria-controls="select-4">Toggle 4</option>
+    <option value="5" aria-controls="select-5">Toggle 5</option>
+    <option value="6" aria-controls="select-6" selected="selected">Toggle 6</option>
+</select>
+<div class="toggle" id="select-4" data-group="select-a">Toggle 4</div>
+<div class="toggle" id="select-5" data-group="select-a">Toggle 5</div>
+<div class="toggle" id="select-6" data-group="select-a">Toggle 6</div>
+
+<h3>Dialog</h3>
+<div id="dialog" role="dialog" aria-hidden="true" class="toggle">
+    <p>This is a dialog. Just a basic toggle, but it also has focus containment.</p>
+    <a href="http://www.google.com">Anchor</a>
+    <button type="button">Button</button>
+    <button type="button" aria-controls="dialog">Close dialog</button>
+</div>
+<button aria-controls="dialog">Open dialog</button>
+
+<p>Please note that the dialog-styling is missing in this demo.</p>
+
+<h2>Children</h2>
+<p>Focusable children elements are automatically disabled when a toggle is deactivated, when using the `focus`-option.</p>
+
+<div class="toggle" id="children">
+    <p>Lorem ipsum <a href="http://www.google.com">link</a>.</p>
+    <input type="text" />
+    <button type="button">Button</button>
+</div>
+<button aria-controls="children">Open dialog</button>
+
+
+<h2>States</h2>
+<p>You can use various attributes to set the state of a toggle. All attributes should have <code>true</code> or <code>false</code> as their value</p>
+<ul>
+    <li><code>aria-hidden</code> for an element which is hidden from view</li>
+    <li><code>aria-disabled</code> for an element which is not hidden from view, but is disabled</li>
+    <li><code>data-activated</code> for an element which does not match either of the above</li>
+</ul>
+<p>The last option is the default, as the other choices must be concious decisions made by the author (i.e. you!).</p>
+
+<h3>ARIA-hidden</h3>
+
+<h4>True</h4>
+<div class="toggle" id="toggle-hidden" aria-hidden="true">Toggle Hidden</div>
+<a href="#toggle-hidden" class="trigger">Trigger</a>
+
+<h4>False</h4>
+<div class="toggle" id="toggle-hidden-2" aria-hidden="false">Toggle Hidden</div>
+<a href="#toggle-hidden-2" class="trigger">Trigger</a>
+
+<h3>ARIA-disabled</h3>
+
+<h4>True</h4>
+<div class="toggle" id="toggle-disabled" aria-disabled="true">Toggle Disabled</div>
+<a href="#toggle-disabled" class="trigger">Trigger</a>
+
+<h4>False</h4>
+<div class="toggle" id="toggle-disabled-2" aria-disabled="false">Toggle Disabled</div>
+<a href="#toggle-disabled-2" class="trigger">Trigger</a>
+
+<h3>data-activated</h3>
+
+<h4>True</h4>
+<div class="toggle" id="toggle-activated" data-active="true">Toggle Activated</div>
+<a href="#toggle-activated" class="trigger">Trigger</a>
+
+<h4>False</h4>
+<div class="toggle" id="toggle-activated-2" data-active="false">Toggle Activated</div>
+<a href="#toggle-activated-2" class="trigger">Trigger</a>
+
+<h2>Dynamically generated triggers</h2>
+<p>Toggles and triggers can also be generated dynamically ofcourse.</p>
+
+<h3>Dynamic toggle</h3>
+
+<div id="dynamic-buttons">
+    <button aria-controls="toggle-dynamic-group-1">Trigger 1</button>
+    <button aria-controls="toggle-dynamic-group-2">Trigger 2</button>
+    <button aria-controls="toggle-dynamic-group-3">Trigger 3</button>
+</div>
+
+<div id="dynamic-toggles">
+    <div class="toggle" id="toggle-dynamic-group-1" data-group="dynamic">Toggle 1</div>
+    <div class="toggle" id="toggle-dynamic-group-2" data-group="dynamic">Toggle 2</div>
+    <div class="toggle" id="toggle-dynamic-group-3" data-group="dynamic">Toggle 3</div>
+</div>
+
+<button id="add-toggle">Add toggle</button>
+
+<script>
+
+</script>
+
+<h3>Dynamic trigger</h3>
+<div class="toggle" id="toggle-dynamic">Toggle</div>
+<a href="#toggle-dynamic" class="trigger">Trigger</a>
+
+<button id="add-trigger">Add trigger</button>
 
 <style>
     [tabindex='-1']{

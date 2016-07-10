@@ -3,7 +3,11 @@
 var Mediator = require('../utils/Mediator'),
     Manager = require('./Manager'),
     Toggle = require('./Toggle'),
-    Trigger = require('./Trigger');
+    Trigger = require('./Trigger'),
+    TriggerInput = require('./TriggerInput'),
+    TriggerLink = require('./TriggerLink'),
+    TriggerInputChoice = require('./TriggerInputChoice'),
+    TriggerInputSelect = require('./TriggerInputSelect');
 
 module.exports = class Factory {
 
@@ -49,25 +53,21 @@ module.exports = class Factory {
 
         switch(name){
             case 'select':
-                console.log('Trigger Select');
-                // toggle = new TriggerSelect(node, options);
+                toggle = new TriggerInputSelect(node, options);
                 break;
             case 'input':
                 switch(node.type){
                     case 'radio':
                     case 'checkbox':
-                        console.log('Trigger Choice');
-                        // toggle = new TriggerChoice(node, options);
+                        toggle = new TriggerInputChoice(node, options);
                         break;
                     default:
-                        console.log('Trigger Input')
-                        // toggle = new TriggerInput(node, options);
+                        toggle = new TriggerInput(node, options);
                         break;
                 }
                 break;
             case 'a':
-                console.log('Trigger Link');
-                // toggle = new TriggerLink(node, options);
+                toggle = new TriggerLink(node, options);
                 break;
             default:
                 if(node.hasAttribute('href') || node.hasAttribute('aria-controls')) {

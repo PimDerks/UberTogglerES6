@@ -5,7 +5,7 @@ var Mediator = require('../utils/Mediator'),
 
 const defaultOptions = {
     outside: false,
-    focus: true,
+    focus: false,
     group: false
 }
 
