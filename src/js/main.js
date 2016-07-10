@@ -1,7 +1,7 @@
 require('babel-core/register');
 
 var Focus = require('./utils/Focus'),
-    Toggle = require('./lib/Toggle'),
+    Toggle = require('./lib/Factory'),
     $$ = require('./utils/QuerySelector');
 
 // focus contain test

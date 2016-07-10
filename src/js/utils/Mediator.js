@@ -60,8 +60,6 @@ class Mediator {
             return false;
         }
 
-        this._topics[topic].forEach(f => console.log(f));
-
         this._topics[topic].forEach(function(t){
             t.apply(undefined, args);
         });

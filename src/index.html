@@ -24,7 +24,13 @@
 </div>
 
 <div class="toggle" id="toggle">Toggle</div>
-<a href="#toggle">Toggle toggle</a>
+<button aria-controls="toggle">Toggle toggle</button>
+
+<div class="toggle" id="toggle2" data-outside>Toggle</div>
+<button aria-controls="toggle2">Toggle toggle</button>
+
+<div class="toggle" id="toggle3" data-outside="both">Toggle</div>
+<button aria-controls="toggle3">Toggle toggle</button>
 
 <style>
     [tabindex='-1']{
