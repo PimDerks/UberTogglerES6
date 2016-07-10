@@ -96,6 +96,7 @@ module.exports = class Toggle {
         // Register toggle
         setTimeout(() => {
             this.register();
+            this.update();
         });
 
     }
@@ -217,26 +218,6 @@ module.exports = class Toggle {
     }
 
     /**
-     * Let the world know this Toggle's state has changed.
-     *
-     * @private
-     */
-
-    _onStateChange(){
-
-        // Publish event
-        this._mediator.publish('toggle', {
-            toggle: this,
-            id: this.getId(),
-            active: this.isActive()
-        });
-
-        // Update state
-        this._setState();
-
-    }
-
-    /**
      * Activate this Toggle.
      */
 
@@ -244,12 +225,10 @@ module.exports = class Toggle {
 
         if(!this.isActive()){
 
-            this._element.classList.add('activated');
-            this._element.classList.remove('deactivated');
             this._isActive = true;
-            this._onStateChange();
+            this.update();
 
-            if(this._element.dataset.outside === 'mouse' || this._element.dataset.outside === 'both'){
+            if(this._options.outside === 'mouse' || this._options === 'both'){
                 this._startMouseTimer(1000);
             }
 
@@ -264,12 +243,8 @@ module.exports = class Toggle {
     deactivate(){
 
         if(this.isActive()){
-
-            this._element.classList.remove('activated');
-            this._element.classList.add('deactivated');
             this._isActive = false;
-            this._onStateChange();
-
+            this.update();
         }
 
     }
@@ -279,13 +254,20 @@ module.exports = class Toggle {
      * @private
      */
 
-    _setState(){
+    update(){
 
-        // check if aria-hidden is available
-        if(this._element.getAttribute('aria-hidden')){
+        // Publish event
+        this._mediator.publish('toggle', {
+            toggle: this,
+            id: this.getId(),
+            active: this.isActive()
+        });
+
+        // Check if aria-hidden is available
+        if(this._element.hasAttribute('aria-hidden')){
             this._element.setAttribute('aria-hidden', !this.isActive());
             // check if aria-disabled is available
-        } else if(this._element.getAttribute('aria-disabled')){
+        } else if(this._element.hasAttribute('aria-disabled')){
             this._element.setAttribute('aria-disabled', !this.isActive());
             // default
         } else {
@@ -305,10 +287,10 @@ module.exports = class Toggle {
         if(this.hasActiveTrigger() || this.hasActiveHash()){
             return true;
             // check if aria-hidden is available
-        } else if(this._element.getAttribute('aria-hidden')){
+        } else if(this._element.hasAttribute('aria-hidden')){
             return this._element.getAttribute('aria-hidden') === "false";
             // check if aria-disabled is available
-        } else if(this._element.getAttribute('aria-disabled')){
+        } else if(this._element.hasAttribute('aria-disabled')){
             return this._element.getAttribute('aria-disabled') === "false";
             // default
         } else {

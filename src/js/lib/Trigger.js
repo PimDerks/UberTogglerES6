@@ -30,8 +30,10 @@ module.exports = class Trigger extends Toggle {
         this.register();
 
         // set initial state
-        let state = this.getTargetState();
-        state ? this.activate() : this.deactivate();
+        this.getTargetState() ? this.activate() : this.deactivate();
+
+        // update
+        this.update();
 
     }
 

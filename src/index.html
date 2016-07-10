@@ -26,6 +26,9 @@
 <div class="toggle" id="toggle">Toggle</div>
 <button aria-controls="toggle">Toggle toggle</button>
 
+<div class="toggle" id="toggle1" data-active="true">Toggle</div>
+<button aria-controls="toggle1">Toggle toggle</button>
+
 <div class="toggle" id="toggle2" data-outside>Toggle</div>
 <button aria-controls="toggle2">Toggle toggle</button>
 
@@ -41,11 +44,15 @@
         background: green;
     }
 
-    .toggle.activated {
+    [data-active="true"],
+    [aria-hidden="false"],
+    [aria-disabled="false"]{
         background: blue;
     }
 
-    .toggle.deactivated {
+    [data-active="false"],
+    [aria-hidden="true"],
+    [aria-disabled="true"]{
         background: red;
     }
 </style>
