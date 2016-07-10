@@ -87,11 +87,50 @@ Initialize the Toggles in any way you want.
 
 ### Options/settings
 
+Every Toggle can be configured to have specific behaviour. This behaviour can be configured in various ways:
+
+1. By passing an object to the constructor.
+2. By setting `data-*`-attributes on the node your adding Toggle-behaviour to (e.g. `data-outside`).
+3. The default settings for a toggle.
+
 #### Grouping Toggles together
 
-To create a ToggleGroup, use the `data-group="your-group-name"` here on every Toggle you want to include in the group.
+To create a group of Toggles, use the `group`-option on every Toggle you want to include in the Group.
 
-When you have a ToggleGroup where there should -always- be a Toggle active (e.g. a tab control) use the `data-group-default attribute`.
+When you have a Group which should -always- have an active Toggle (e.g. a tab control) use the `group-default`-option.
+
+| Key             | Default value | Expected value |
+|-----------------|---------------|----------------|
+| `group`         | false         | string         |
+| `group-default` | false         | boolean        |
+
+#### Maintain focus
+
+It is possible to trap the focus inside a Toggle when it is active. Use the `focus`-option to do this. When this option is active, the element and its children will be excluded from the focus-flow/order as well.
+
+| Key           | Default value | Expected value |
+|---------------|---------------|----------------|
+| `focus`       | false         | boolean        |
+
+#### Close when outside
+
+Sometimes you might want to close a Toggle when the user is no longer focussed on it, e.g. a Tooltip should be closed when a user clicks somewhere else.
+
+To implement this behaviour use the `outside`-option.
+
+| Key              | Default value | Expected value |
+|------------------|---------------|----------------|
+| `outside`        | false         | string        |
+
+Possible values:
+
+| Value         | Result
+|---------------|-----------------------------------------|
+| empty   | Toggle gets closed when clicked outside.      |
+| `click` | Toggle gets closed when clicked outside.      |
+| `mouse` | Toggle gets closed when mouse leaves element. |
+| `both`  | Shorthand for `click` and `mouse`             |
+
 
 ### Target Toggles with a Trigger
 
