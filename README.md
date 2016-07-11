@@ -141,13 +141,12 @@ To implement this behaviour use the `outside`-option.
 
 Possible values:
 
-| Value         | Result
-|---------------|-----------------------------------------|
-| empty   | Toggle gets closed when clicked outside.      |
-| `click` | Toggle gets closed when clicked outside.      |
-| `mouse` | Toggle gets closed when mouse leaves element. |
-| `both`  | Shorthand for `click` and `mouse`             |
-
+| Value    | Result                                       |
+|----------|----------------------------------------------|
+| empty    | Toggle gets closed when clicked outside.     |
+| `click`  | Toggle gets closed when clicked outside.     |
+| `mouse`  | Toggle gets closed when mouse leaves element.|
+| `both`   | Shorthand for `click` and `mouse`            |
 
 ### Target Toggles with a Trigger
 
