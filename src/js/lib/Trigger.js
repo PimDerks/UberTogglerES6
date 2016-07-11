@@ -157,6 +157,8 @@ module.exports = class Trigger extends Toggle {
 
     _onClick(e){
 
+        console.log('click trigger');
+
         // Let the world know
         this._mediator.publish('trigger', {
             toggle: this,

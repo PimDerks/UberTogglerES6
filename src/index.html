@@ -5,6 +5,15 @@
 <body>
 <p>Blaat.</p>
 
+<h3>Contain focus</h3>
+<div id="focus" aria-hidden="true" class="toggle" data-focus="true">
+    <p>Just a basic toggle, but it also has focus containment/excludement. This can be used as a dialog.</p>
+    <a href="http://www.google.com">Anchor</a>
+    <button type="button">Button</button>
+    <button type="button" aria-controls="focus" id="blaat">Close dialog</button>
+</div>
+<button type="button" aria-controls="focus">Toggle</button>
+
 <div id="contain">
     <p>Focus. <a href="#">A</a> <a href="#">B</a></p>
     <button id="disable-contain">Disable contain</button>
@@ -41,15 +50,13 @@
     input.activated::after,
     input.deactivated::after{ display: none; }
 
-    [aria-hidden="true"]{
-        display: none;
-    }
-
+    [aria-hidden],
     [aria-disabled],
     [data-active]{
         transition: all 100ms ease-out;
     }
 
+    [aria-hidden="true"],
     [aria-active="false"]
         [aria-disabled="true"]{
         opacity: .5;
@@ -181,28 +188,6 @@
 <div class="toggle" id="select-4" data-group="select-a">Toggle 4</div>
 <div class="toggle" id="select-5" data-group="select-a">Toggle 5</div>
 <div class="toggle" id="select-6" data-group="select-a">Toggle 6</div>
-
-<h3>Dialog</h3>
-<div id="dialog" role="dialog" aria-hidden="true" class="toggle">
-    <p>This is a dialog. Just a basic toggle, but it also has focus containment.</p>
-    <a href="http://www.google.com">Anchor</a>
-    <button type="button">Button</button>
-    <button type="button" aria-controls="dialog">Close dialog</button>
-</div>
-<button aria-controls="dialog">Open dialog</button>
-
-<p>Please note that the dialog-styling is missing in this demo.</p>
-
-<h2>Children</h2>
-<p>Focusable children elements are automatically disabled when a toggle is deactivated, when using the `focus`-option.</p>
-
-<div class="toggle" id="children">
-    <p>Lorem ipsum <a href="http://www.google.com">link</a>.</p>
-    <input type="text" />
-    <button type="button">Button</button>
-</div>
-<button aria-controls="children">Open dialog</button>
-
 
 <h2>States</h2>
 <p>You can use various attributes to set the state of a toggle. All attributes should have <code>true</code> or <code>false</code> as their value</p>

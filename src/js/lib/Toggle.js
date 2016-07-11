@@ -1,6 +1,7 @@
 'use strict';
 
 var Mediator = require('../utils/Mediator'),
+    Focus = require('../utils/Focus'),
     Manager = require('./Manager');
 
 const defaultOptions = {
@@ -92,6 +93,11 @@ module.exports = class Toggle {
 
         // Bind events
         this._bind(true);
+
+        // Create instance of Focus containments
+        if(this._options.focus){
+            this._focus = new Focus(this._element);
+        }
 
         // Register toggle
         setTimeout(() => {
@@ -243,8 +249,10 @@ module.exports = class Toggle {
     deactivate(){
 
         if(this.isActive()){
+
             this._isActive = false;
             this.update();
+
         }
 
     }
@@ -273,6 +281,16 @@ module.exports = class Toggle {
         } else {
             this._element.setAttribute('data-active', this.isActive());
         }
+
+        // Activate/deactivate children
+        if(this._options.focus){
+            if(this.isActive()){
+                this._focus.contain();
+            } else {
+                this._focus.exclude();
+            }
+        }
+
 
     }
 

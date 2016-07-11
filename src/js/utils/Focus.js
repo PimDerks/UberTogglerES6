@@ -2,7 +2,7 @@
 
 var $$ = require('./QuerySelector');
 
-const focusableElements = ['a[href]', 'area[href]', 'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'button:not([disabled])', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
+const focusableElements = ['a[href]', 'area[href]', 'input', 'select', 'textarea', 'button', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
 
 module.exports = class Focus {
 
@@ -10,6 +10,11 @@ module.exports = class Focus {
         this._element = element;
         this._initialize();
     }
+
+    /**
+     * Set shortcuts for easy (un)binding of methods.
+     * @private
+     */
 
     _initialize() {
         this._maintainFocusBind = this._maintainFocus.bind(this);
@@ -19,23 +24,46 @@ module.exports = class Focus {
         this._onFocusBind = this._onFocus.bind(this);
     }
 
+    /**
+     *
+     * @private
+     */
+
     _onFocus() {
         if (this._focusedBefore) {
             this._focusedBefore.focus();
         }
     }
 
-    _bindContain(unbind) {
-        let method = unbind ? 'removeEventListener' : 'addEventListener';
+    /**
+     * Bind events for containing focus.
+     * @param {Boolean} bind - Bind or unbind.
+     * @private
+     */
+
+    _bindContain(bind = true) {
+        let method = bind ? 'addEventListener' : 'removeEventListener';
         document.body[method]('focus', this._maintainFocusBind, true);
         document.body[method]('keydown', this._onKeyDownBind, true);
         document.body[method]('click', this._onClickContainBind, true);
     }
 
-    _bindExclude(unbind){
-        let method = unbind ? 'removeEventListener' : 'addEventListener';
+    /**
+     * Bind events for excluding focus.
+     * @param {Boolean} bind - Bind or unbind.
+     * @private
+     */
+
+    _bindExclude(bind = true){
+        let method = bind ? 'addEventListener' : 'removeEventListener';
         document.body[method]('click', this._onClickExcludeBind, true);
     }
+
+    /**
+     * Catch clicks in a focus-contain scenario.
+     * @param {Event} e - Click event.
+     * @private
+     */
 
     _onClickContain(e){
 
@@ -47,13 +75,19 @@ module.exports = class Focus {
             target = target.parentNode;
         }
 
-        // outside of element, cancel click
+        // inside of element, cancel click
         if (target !== this._element){
             e.preventDefault();
             e.stopPropagation();
         }
 
     }
+
+    /**
+     * Catch clicks in a focus-exclude scenario.
+     * @param e
+     * @private
+     */
 
     _onClickExclude(e){
 
@@ -73,6 +107,11 @@ module.exports = class Focus {
 
     }
 
+    /**
+     * Trap tab key.
+     * @param {Event} e - Keydown event.
+     * @private
+     */
 
     _onKeyDown(e) {
         if (this.isActive() && e.which === 9) {
@@ -80,11 +119,22 @@ module.exports = class Focus {
         }
     }
 
+    /**
+     * Get a list of focusable element in the current node.
+     * @returns {*}
+     * @private
+     */
+
     _getFocusableElements() {
         return $$(focusableElements.join(','), this._element).filter(function (child) {
             return !!(child.offsetWidth || child.offsetHeight || child.getClientRects().length);
         });
     }
+
+    /**
+     * Set focus to the first focusable element.
+     * @private
+     */
 
     _setFocusToFirstElement() {
         let focusableChildren = this._getFocusableElements();
@@ -93,10 +143,16 @@ module.exports = class Focus {
         }
     }
 
+    /**
+     * Enable or disable children.
+     * @param {Boolean} enable - Enable of disable.
+     * @private
+     */
+
     _toggleFocusableChildren(enable){
 
         let focusableChildren = this._getFocusableElements();
-        let context = this;
+
         if (focusableChildren.length) {
             focusableChildren.forEach(f => {
 
@@ -113,15 +169,28 @@ module.exports = class Focus {
         }
     }
 
+    /**
+     * Maintain focus when tabbing to outside context.
+     * @param e
+     * @private
+     */
+
     _maintainFocus(e) {
         if (this.isActive() && !this._element.contains(event.target)) {
             this._setFocusToFirstElement();
         }
     }
 
+    /**
+     * Trap tab-key default behaviour by hacking default focus order.
+     * @param node
+     * @param event
+     * @private
+     */
+
     _trapTabKey(node, event) {
-        let focusableChildren = this._getFocusableElements(node);
-        let focusedItemIndex = focusableChildren.indexOf(document.activeElement);
+        let focusableChildren = this._getFocusableElements(node),
+            focusedItemIndex = focusableChildren.indexOf(document.activeElement);
 
         if (event.shiftKey && focusedItemIndex === 0) {
             focusableChildren[focusableChildren.length - 1].focus();
@@ -133,14 +202,26 @@ module.exports = class Focus {
 
     }
 
+    /**
+     * Check if the module is active.
+     * @returns {Boolean}
+     */
+
     isActive() {
         return this._active;
     }
 
+    /**
+     *  Exclude element and its children from focus.
+     */
+
     exclude() {
 
+        // disable contain
+        this.disableContain();
+
         // catch clicks
-        this._bindExclude();
+        this._bindExclude(true);
 
         this._focusedBefore = document.activeElement;
 
@@ -149,21 +230,35 @@ module.exports = class Focus {
 
     }
 
+
+    /**
+     *  Contain focus to element and its children.
+     */
+
     contain() {
+        this.disableExclude();
         this._active = true;
         this._focusedBefore = document.activeElement;
-        this._bindContain();
+        this._bindContain(true);
         this._setFocusToFirstElement();
     }
 
+    /**
+     * Disable containment of focus.
+     */
+
     disableContain() {
         this._active = false;
-        this._bindContain(true);
+        this._bindContain(false);
 
         if (this._focusedBefore) {
             this._focusedBefore.focus();
         }
     }
+
+    /**
+     * Disable excludement of focus.
+     */
 
     disableExclude() {
 
