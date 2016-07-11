@@ -104,13 +104,30 @@ When you have a Group which should -always- have an active Toggle (e.g. a tab co
 | `group`         | false         | string         |
 | `group-default` | false         | boolean        |
 
-#### Maintain focus
+#### Focus
 
-It is possible to trap the focus inside a Toggle when it is active. Use the `focus`-option to do this. When this option is active, the element and its children will be excluded from the focus-flow/order as well.
+It is possible to automatically set focus to an element when it is activated. Use the `focus`-option to do this.
 
 | Key           | Default value | Expected value |
 |---------------|---------------|----------------|
 | `focus`       | false         | boolean        |
+
+#### Focus containment
+
+It is possible to trap the focus inside a Toggle when it is active. Use the `focusContain`-option to do this. When the Toggle is active, the user will only be able to click and tab within the context of the Toggle.
+
+| Key            | Default value | Expected value |
+|----------------|---------------|----------------|
+| `focusContain` | false         | boolean        |
+
+#### Focus excludement
+
+The reverse of the Focus Containment option described above. Use the `focusExclude`-option to do this. When this option is active, the element and its children will be excluded from the focus-flow/order when the Toggle is not active.
+
+| Key            | Default value | Expected value |
+|----------------|---------------|----------------|
+| `focusExclude` | false         | boolean        |
+
 
 #### Close when outside
 

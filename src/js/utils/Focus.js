@@ -25,14 +25,13 @@ module.exports = class Focus {
     }
 
     /**
-     *
+     * Cancel setting focus on element outside of container.
      * @private
      */
 
-    _onFocus() {
-        if (this._focusedBefore) {
-            this._focusedBefore.focus();
-        }
+    _onFocus(e) {
+        e.preventDefault();
+        e.stopPropagation();
     }
 
     /**
@@ -217,9 +216,6 @@ module.exports = class Focus {
 
     exclude() {
 
-        // disable contain
-        this.disableContain();
-
         // catch clicks
         this._bindExclude(true);
 
@@ -236,11 +232,12 @@ module.exports = class Focus {
      */
 
     contain() {
-        this.disableExclude();
+
         this._active = true;
         this._focusedBefore = document.activeElement;
         this._bindContain(true);
         this._setFocusToFirstElement();
+
     }
 
     /**

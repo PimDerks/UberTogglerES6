@@ -6,13 +6,21 @@
 <p>Blaat.</p>
 
 <h3>Contain focus</h3>
-<div id="focus" aria-hidden="true" class="toggle" data-focus="true">
-    <p>Just a basic toggle, but it also has focus containment/excludement. This can be used as a dialog.</p>
+<div id="focus-contain" aria-hidden="true" class="toggle" data-focus-exclude="true" data-focus="true" data-focus-contain="true">
+    <p>Just a basic toggle, but it also has focus containment. This can be used as a dialog.</p>
     <a href="http://www.google.com">Anchor</a>
     <button type="button">Button</button>
-    <button type="button" aria-controls="focus" id="blaat">Close dialog</button>
+    <button type="button" aria-controls="focus-contain">Close dialog</button>
 </div>
-<button type="button" aria-controls="focus">Toggle</button>
+<button type="button" aria-controls="focus-contain">Toggle</button>
+
+<div id="focus-exclude" aria-hidden="true" class="toggle" data-focus-exclude="true" data-focus="true">
+    <p>Just a basic toggle, but it also has focus excludement.</p>
+    <a href="http://www.google.com">Anchor</a>
+    <button type="button">Button</button>
+    <button type="button" aria-controls="focus-exclude">Close dialog</button>
+</div>
+<button type="button" aria-controls="focus-exclude">Toggle</button>
 
 <div id="contain">
     <p>Focus. <a href="#">A</a> <a href="#">B</a></p>
@@ -58,9 +66,9 @@
 
     [aria-hidden="true"],
     [aria-active="false"]
-        [aria-disabled="true"]{
+    [aria-disabled="true"]{
         opacity: .5;
-        pointer-events: none;
+        // pointer-events: none;
     }
 </style>
 <body>
@@ -93,9 +101,9 @@
 <a href="#tab-1">Tab 1</a>
 <a href="#tab-2">Tab 2</a>
 <a href="#tab-3">Tab 3</a>
-<div class="toggle" id="tab-1" data-group="group" aria-hidden="false" data-group-default="true">Tab 1</div>
-<div class="toggle" id="tab-2" data-group="group" aria-hidden="true">Tab 2</div>
-<div class="toggle" id="tab-3" data-group="group" aria-hidden="true">Tab 3</div>
+<div class="toggle" id="tab-1" data-group="group" aria-hidden="false" data-group-default="true" data-focus-exclude="true">Tab 1 <a href="#">Focusable element</a></div>
+<div class="toggle" id="tab-2" data-group="group" aria-hidden="true" data-focus-exclude="true">Tab 2 <a href="#">Focusable element</a></div>
+<div class="toggle" id="tab-3" data-group="group" aria-hidden="true" data-focus-exclude="true">Tab 3 <a href="#">Focusable element</a></div>
 
 <h2>Toggle with multiple triggers</h2>
 <div class="toggle" id="toggle-multiple">Toggle</div>

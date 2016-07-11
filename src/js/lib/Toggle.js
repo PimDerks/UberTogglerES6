@@ -2,13 +2,18 @@
 
 var Mediator = require('../utils/Mediator'),
     Focus = require('../utils/Focus'),
-    Manager = require('./Manager');
+    Manager = require('./Manager'),
+    $$ = require('../utils/QuerySelector');
 
 const defaultOptions = {
     outside: false,
     focus: false,
+    focusContain: false,
+    focusExclude: false,
     group: false
-}
+};
+
+const focusableElements = ['a[href]', 'area[href]', 'input', 'select', 'textarea', 'button', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
 
 module.exports = class Toggle {
 
@@ -51,12 +56,17 @@ module.exports = class Toggle {
             return options[key];
         }
 
-        if(this._element.hasAttribute('data-' + key)){
-            let attr = this._element.getAttribute('data-' + key);
-            if(!attr){
-                return true;
-            } else {
-                return attr;
+        if(this._element.dataset[key]){
+            let attr = this._element.dataset[key];
+            switch(attr) {
+                case 'true':
+                    return true;
+                    break;
+                case 'false':
+                    return false;
+                    break;
+                default:
+                    return attr;
             }
         }
 
@@ -80,6 +90,8 @@ module.exports = class Toggle {
         return {
             outside: this._getOption('outside'),
             focus: this._getOption('focus'),
+            focusContain: this._getOption('focusContain'),
+            focusExclude: this._getOption('focusExclude'),
             group: this._getOption('group')
         }
     }
@@ -95,7 +107,7 @@ module.exports = class Toggle {
         this._bind(true);
 
         // Create instance of Focus containments
-        if(this._options.focus){
+        if(this._options.focusContain || this._options.focusExclude){
             this._focus = new Focus(this._element);
         }
 
@@ -224,6 +236,18 @@ module.exports = class Toggle {
     }
 
     /**
+     * Get a list of focusable element in the current node.
+     * @returns {*}
+     * @private
+     */
+
+    _getFocusableElements() {
+        return $$(focusableElements.join(','), this._element).filter(function (child) {
+            return !!(child.offsetWidth || child.offsetHeight || child.getClientRects().length);
+        });
+    }
+
+    /**
      * Activate this Toggle.
      */
 
@@ -236,6 +260,14 @@ module.exports = class Toggle {
 
             if(this._options.outside === 'mouse' || this._options === 'both'){
                 this._startMouseTimer(1000);
+            }
+
+            if(this._options.focus){
+                let children = this._getFocusableElements();
+                if(children[0]){
+                    children[0].focus();
+                }
+                this._element.focus()
             }
 
         }
@@ -282,15 +314,23 @@ module.exports = class Toggle {
             this._element.setAttribute('data-active', this.isActive());
         }
 
-        // Activate/deactivate children
-        if(this._options.focus){
+        // Contain focus
+        if(this._options.focusContain){
             if(this.isActive()){
                 this._focus.contain();
+            } else {
+                this._focus.disableContain();
+            }
+        }
+
+        // Exclude focus
+        if(this._options.focusExclude){
+            if(this.isActive()){
+                this._focus.disableExclude();
             } else {
                 this._focus.exclude();
             }
         }
-
 
     }
 
