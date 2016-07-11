@@ -150,11 +150,11 @@ Possible values:
 
 ### Target Toggles with a Trigger
 
-By default we use the `href`-attribute, as most of the time you'll want to use an anchor. On elements which don't have an href, use the `aria-controls`-attribute with the id(s) of the Toggle(s) you want to target as its value.
+By default we use the `href`-attribute, as most of the time you'll want to use an anchor. On elements which don't have an href, use the `aria-controls`-attribute with the id(s) of the Toggle(s) you want to target as its value. Make sure to make your content accessible without JavaScript as well!
 
 #### Target multiple Toggles with one Trigger
 
-Simply use the `aria-controls`-attribute with a space separated list of ID's of the Toggles you want to target.
+Simply use the `aria-controls`-attribute with a space separated list of ID's of the Toggles you want to target. When used on an anchor, the `href`-attribute and the `aria-controls`-attribute are combined.
 
 ### States
 
