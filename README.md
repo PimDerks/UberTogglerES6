@@ -148,6 +148,10 @@ Possible values:
 | `mouse`  | Toggle gets closed when mouse leaves element.|
 | `both`   | Shorthand for `click` and `mouse`            |
 
+#### Only activate
+
+Sometimes it might be necessary to only allow a Toggle to be opened, for example when you've got some tabs. One tab should always be open, so clicking on an open tab should not close it. Use the `data-activate-only`-attribute to enforce this behaviour.
+
 ### Target Toggles with a Trigger
 
 By default we use the `href`-attribute, as most of the time you'll want to use an anchor. On elements which don't have an href, use the `aria-controls`-attribute with the id(s) of the Toggle(s) you want to target as its value. Make sure to make your content accessible without JavaScript as well!

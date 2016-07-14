@@ -10,7 +10,8 @@ const defaultOptions = {
     focus: false,
     focusContain: false,
     focusExclude: false,
-    group: false
+    group: false,
+    activateOnly: false
 };
 
 const focusableElements = ['a[href]', 'area[href]', 'input', 'select', 'textarea', 'button', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
@@ -92,8 +93,10 @@ module.exports = class Toggle {
             focus: this._getOption('focus'),
             focusContain: this._getOption('focusContain'),
             focusExclude: this._getOption('focusExclude'),
-            group: this._getOption('group')
+            group: this._getOption('group'),
+            activateOnly: this._getOption('activateOnly')
         }
+
     }
 
     /**
@@ -474,12 +477,27 @@ module.exports = class Toggle {
 
     _onTrigger(e){
 
-        if(this.getGroup() && this.isActive() && this.eventMatch(e)){
-            return;
-        }
-
         if(this.eventMatch(e)){
+
+            if(this._options.activateOnly && this.getGroup() && this.isActive()){
+                return;
+            }
+
             this.toggle(e);
+
+            if(e.type === 'link'){
+
+                // Set hash
+                let href = !this.isActive() ? '#' : this.getId();
+
+                if(history.pushState && href) {
+                    history.pushState(null, null, '#' + href);
+                } else {
+                    location.hash = href;
+                }
+
+            }
+
         }
 
     }
@@ -578,6 +596,7 @@ module.exports = class Toggle {
      */
 
     _onHashChange(e){
+
         var hash = window.location.hash.replace('#', ''),
             oldHash = e.oldURL.substr(e.oldURL.indexOf('#')).replace('#', '');
 

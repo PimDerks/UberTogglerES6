@@ -23,21 +23,13 @@ module.exports = class TriggerLink extends Trigger {
         e.preventDefault();
         e.stopPropagation();
 
-        // Set hash
-        let href = this.isActive() ? '#' : this._element.getAttribute('href');
-
-        if(history.pushState && href) {
-            history.pushState(null, null, href);
-        } else {
-            location.hash = href;
-        }
-
         // Let the world know
         this._mediator.publish('trigger', {
             toggle: this,
             id: this.getId(),
             active: this.isActive(),
-            targets: this._targets
+            targets: this._targets,
+            type: 'link'
         });
 
     }
