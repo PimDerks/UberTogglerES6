@@ -5,7 +5,8 @@ var gulp = require("gulp"),
     browserify = require("browserify"),
     through2 = require("through2"),
     rename = require("gulp-rename"),
-    browserSync = require('browser-sync').create();
+    browserSync = require('browser-sync').create(),
+    Server = require('karma').Server;
 
 var dirs = {
     src: './src',
@@ -45,6 +46,15 @@ gulp.task("compile", ["copy", "javascript"]);
 
 gulp.task("watch", function(){
     gulp.watch(dirs.src + "/**/*", ["compile"]);
+});
+
+gulp.task("test", function (done) {
+
+    new Server({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done).start();
+
 });
 
 gulp.task("watch-dist", function(){
