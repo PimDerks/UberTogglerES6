@@ -5,6 +5,7 @@
 .CVS
 .idea
 dest
+amd
 *.css
 *.map
 node_modules

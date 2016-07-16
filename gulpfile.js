@@ -21,6 +21,15 @@ gulp.task("copy", function(){
         .pipe(gulp.dest(dirs.dest));
 });
 
+gulp.task('es6-amd', function(){
+    return gulp.src(['src/**/*.js', '!src/**/*Spec.js'])
+        .pipe(babel({
+            presets: ['es2015'],
+            plugins: ["transform-es2015-modules-amd"]
+        }))
+        .pipe(gulp.dest('amd'));
+});
+
 gulp.task("javascript", function () {
     return gulp.src('./src/js/main.js')
         .pipe(through2.obj(function (file, enc, next) {
@@ -45,7 +54,7 @@ gulp.task("javascript", function () {
 gulp.task("compile", ["copy", "javascript"]);
 
 gulp.task("watch", function(){
-    gulp.watch(dirs.src + "/**/*", ["compile"]);
+    gulp.watch(dirs.src + "/**/*", ["compile", "test"]);
 });
 
 gulp.task("test", function (done) {
@@ -84,8 +93,6 @@ gulp.task("serve", function(){
         }
     });
 
-    // gulp.watch(dirs.dest + "/**/*").on("change", browserSync.reload);
-
 });
 
-gulp.task("default", ["compile", "watch", "serve", "watch-dist"]);
+gulp.task("default", ["compile", "watch", "serve", "watch-dist", "test"]);
