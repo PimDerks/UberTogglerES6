@@ -6,11 +6,14 @@ var gulp = require("gulp"),
     through2 = require("through2"),
     rename = require("gulp-rename"),
     browserSync = require('browser-sync').create(),
-    Server = require('karma').Server;
+    Server = require('karma').Server,
+    sass = require('gulp-sass'),
+    plumber = require('gulp-plumber');
 
 var dirs = {
     src: './src',
-    dest: './dest'
+    dest: './dest',
+    sass: './src/scss'
 };
 
 gulp.task("copy", function(){
@@ -51,10 +54,17 @@ gulp.task("javascript", function () {
 
 });
 
-gulp.task("compile", ["copy", "javascript"]);
+gulp.task("compile", ["copy", "sass", "javascript"]);
 
 gulp.task("watch", function(){
     gulp.watch(dirs.src + "/**/*", ["compile", "test"]);
+});
+
+gulp.task("sass", function(){
+    gulp.src(dirs.sass + '/style.scss')
+        .pipe(plumber())
+        .pipe(sass())
+        .pipe(gulp.dest(dirs.dest));
 });
 
 gulp.task("test", function (done) {
@@ -62,7 +72,9 @@ gulp.task("test", function (done) {
     new Server({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
-    }, done).start();
+    }, function(){
+        done()
+    }).start();
 
 });
 
@@ -95,4 +107,5 @@ gulp.task("serve", function(){
 
 });
 
-gulp.task("default", ["compile", "watch", "serve", "watch-dist", "test"]);
+// gulp.task("default", ["compile", "watch", "serve", "watch-dist", "test"]);
+gulp.task("default", ["compile", "watch", "serve", "watch-dist"]);

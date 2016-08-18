@@ -1,0 +1,36 @@
+body {
+  font-family: Arial;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 50em;
+}
+
+.toggle { background: green; }
+.activated { background: blue; }
+.activated::after { content: ' - active'; white-space: nowrap; }
+.deactivated { background: red; }
+.deactivated::after { content: ' - not active'; white-space: nowrap; }
+
+input.activated {
+  outline: 1px solid blue;
+}
+
+input.deactivated {
+  outline: 1px solid red;
+}
+
+input.activated::after,
+input.deactivated::after{ display: none; }
+
+[aria-hidden],
+[aria-disabled],
+[data-active]{
+  transition: all 100ms ease-out;
+}
+
+[aria-hidden="true"],
+[aria-active="false"]
+    [aria-disabled="true"]{
+  opacity: .5;
+  // pointer-events: none;
+}
