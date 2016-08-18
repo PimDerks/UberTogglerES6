@@ -1,3 +1,7 @@
+//  =================
+//  = Body =
+//  =================
+
 body {
   font-family: Arial;
   line-height: 1.5;
@@ -5,6 +9,10 @@ body {
   margin-right: auto;
   max-width: 50em;
 }
+
+//  =================
+//  = Code snippets =
+//  =================
 
 code {
   padding: .2em;
@@ -17,36 +25,59 @@ code[class*=language]{
   height: auto;
 }
 
-[data-active="true"]{
-  background: green;
+//  =================
+//  = Basic styling =
+//  =================
+
+[aria-hidden="true"]{
+  display: none;
 }
 
-[data-active="false"]{
-  background: red;
-}
-
-input.activated {
-  outline: 1px solid blue;
-}
-
-input.deactivated {
-  outline: 1px solid red;
-}
-
-input.activated::after,
-input.deactivated::after{ display: none; }
-
-[aria-hidden],
-[aria-disabled],
-[data-active]{
-  transition: all 100ms ease-out;
-}
-
-[aria-hidden="true"],
-[aria-active="false"]
-    [aria-disabled="true"]{
+[aria-disabled="true"]{
   opacity: .5;
 }
+
+label {
+  display: block;
+}
+
+input {
+  font-size: 1em;
+  padding: .75em;
+}
+
+button {
+  background-color: #00b4f1;
+  border-width: 0;
+  color: white;
+  font-size: 1em;
+  margin-right: .5em;
+  padding: .75em;
+}
+
+a {
+  color: #00b4f1;
+}
+
+.toggle {
+  background-color: #f7f7f7;
+  margin-bottom: 1.5em;
+  padding: 1.5em;
+
+  &[data-active="true"]{
+    background-color: #81c784;
+    color: #FFF;
+  }
+
+}
+
+.trigger {
+  margin-bottom: 1.5em;
+}
+
+//  =========
+//  = Table =
+//  =========
 
 table {
   border-collapse: collapse;
@@ -73,8 +104,12 @@ table {
 
 }
 
+//  ===============
+//  = Dialog Demo =
+//  ===============
+
 .dialog {
-  background: rgba(0,0,0, .25);
+  background: rgba(0,0,0, .5);
   display: none;
   height: 100vh;
   left: 0;
@@ -83,6 +118,7 @@ table {
   width: 100vw;
 
   &[aria-hidden="false"]{
+    background: rgba(0,0,0, .5);
     align-items: center;
     display: flex;
     justify-content: center;
@@ -90,8 +126,98 @@ table {
 
   .dialog__inner {
     background: white;
+    color: black;
     display: inline-block;
     padding: 3em;
     text-align: left;
   }
+}
+
+//  ===============
+//  = Tabs Demo =
+//  ===============
+
+.tabs {
+
+  .tabs__nav {
+    border-bottom: 1px solid black;
+    list-style: none;
+    margin-bottom: 0;
+    padding: 0;
+
+    > li {
+      display: inline-block;
+
+      a {
+        border: 1px solid black;
+        color: black;
+        display: block;
+        margin-bottom: -1px;
+        padding: .75em 1.5em;
+        text-decoration: none;
+
+        &[data-active="true"]{
+          border-bottom-color: white;
+        }
+      }
+
+    }
+
+  }
+
+  .tabs__panel {
+    color: black;
+    display: none;
+
+    &[data-active="true"]{
+      background: #FFF;
+      display: block;
+    }
+
+  }
+
+}
+
+//  ==================
+//  = Accordion Demo =
+//  ==================
+
+.accordion {
+
+  .accordion__panel {
+    border: 1px solid black;
+    margin-bottom: -1px;
+  }
+
+  .accordion__panel-header {
+
+      a {
+        color: black;
+        display: block;
+        font-weight: bold;
+        padding: 1.5em;
+        text-decoration: none;
+
+        &[data-active="true"]{
+          border-bottom: 1px solid black;
+        }
+
+      }
+
+  }
+
+  .accordion__panel-content {
+    background-color: #f7f7f7;
+    color: black;
+    display: none;
+    margin-bottom: 0;
+    padding: 1.5em;
+
+    &[aria-expanded="true"]{
+      background-color: #f7f7f7;
+      display: block;
+    }
+
+  }
+
 }

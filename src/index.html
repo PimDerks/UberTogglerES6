@@ -112,7 +112,7 @@
 
             <h4>Dynamically creating toggles and triggers</h4>
 
-            <div id="dynamic-buttons">
+            <div id="dynamic-buttons" class="trigger">
                 <button aria-controls="toggle-dynamic-group-1">Trigger 1</button>
                 <button aria-controls="toggle-dynamic-group-2">Trigger 2</button>
                 <button aria-controls="toggle-dynamic-group-3">Trigger 3</button>
@@ -124,7 +124,9 @@
                 <div class="toggle" id="toggle-dynamic-group-3" data-group="dynamic">Toggle 3</div>
             </div>
 
-            <button id="add-toggle">Add toggle</button>
+            <div class="trigger">
+                <button id="add-toggle">Add toggle</button>
+            </div>
 
             <pre><code class="language-js">// Generate 'random' id
         var id = 'toggle-dynamic-group-' + Math.random().toString(36).substring(7);
@@ -191,6 +193,10 @@
 
             <p>Combine multiple <code>Toggle</code>s to create elements like tabs, accordions or other elements where only one item can be active at a given time.</p>
 
+            <h3>Activate only</h3>
+
+            <p>Some <code>Toggle</code>s might be one-way - they can only be activated, but not closed again. Think of tabs, where clicking multiple times on a tab should not open/close it over and over again.</p>
+
             <h3>Focus</h3>
 
             <p>Set this option to true to automatically set focus to the <code>Toggle</code> when it is activated.</p>
@@ -246,6 +252,12 @@
                         <td><code>group</code></td>
                         <td><code>data-group</code></td>
                         <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Activate Only</th>
+                        <td><code>activateOnly</code></td>
+                        <td><code>data-activate-only</code></td>
+                        <td>false</td>
                     </tr>
                     <tr>
                         <th scope="col">Focus</th>
@@ -310,30 +322,42 @@
                 <div class="toggle" id="toggle" data-aria-disabled="true">Toggle</div>
 
                 <h4>Input</h4>
-                <input type="text" aria-controls="input-text" />
+                <input type="text" aria-controls="input-text" class="trigger" />
                 <div class="toggle" id="input-text">Input Toggle</div>
 
                 <h4>Checkbox</h4>
-                <input type="checkbox" aria-controls="input-checkbox" />
+                <label>
+                    <input type="checkbox" aria-controls="input-checkbox" class="trigger" />
+                    Check to activate
+                </label>
                 <div class="toggle" id="input-checkbox">Checkbox Toggle</div>
 
                 <h4>Radio</h4>
-                <input type="radio" aria-controls="radio-toggle" checked="checked" />
+                <label>
+                    <input type="radio" aria-controls="radio-toggle" checked="checked" class="trigger" />
+                    Check to activate
+                </label>
                 <div class="toggle" id="radio-toggle">Radio Toggle</div>
 
                 <h4>Multiple triggers</h4>
-                <a href="#toggle-multiple" class="trigger">Trigger A</a>
-                <a href="#toggle-multiple" class="trigger">Trigger B</a>
+                <div class="trigger">
+                    <a href="#toggle-multiple">Trigger A</a>
+                    <a href="#toggle-multiple">Trigger B</a>
+                </div>
                 <div class="toggle" id="toggle-multiple">Toggle</div>
 
                 <h4>Trigger with multiple targets</h4>
-                <button type="button" aria-controls="multiple-target-a multiple-target-b" class="trigger">Trigger</button>
+                <div class="trigger">
+                    <button type="button" aria-controls="multiple-target-a multiple-target-b">Trigger</button>
+                </div>
                 <div class="toggle" id="multiple-target-a">Toggle A</div>
                 <div class="toggle" id="multiple-target-b">Toggle B</div>
 
                 <h4>Trigger with multiple targets and multiple triggers</h4>
-                <button type="button" aria-controls="multiple-target-a1 multiple-target-b1" class="trigger">Trigger A</button>
-                <button type="button" aria-controls="multiple-target-a1 multiple-target-b1" class="trigger">Trigger B</button>
+                <div class="trigger">
+                    <button type="button" aria-controls="multiple-target-a1 multiple-target-b1">Trigger A</button>
+                    <button type="button" aria-controls="multiple-target-a1 multiple-target-b1">Trigger B</button>
+                </div>
                 <div class="toggle" id="multiple-target-a1">Toggle A</div>
                 <div class="toggle" id="multiple-target-b1">Toggle B</div>
             </section>
@@ -350,15 +374,27 @@
                 <div class="toggle" id="toggle-group-3" data-group="group">Toggle 3</div>
 
                 <h4>Radio Buttons</h4>
-                <input type="radio" aria-controls="input-radio-1" name="radio" />
-                <input type="radio" aria-controls="input-radio-2" name="radio" />
-                <input type="radio" aria-controls="input-radio-3" name="radio" />
+                <div class="trigger">
+                    <label>
+                        <input type="radio" aria-controls="input-radio-1" name="radio" />
+                        Radio Button 1
+                    </label>
+                    <label>
+                        <input type="radio" aria-controls="input-radio-2" name="radio" />
+                        Radio Button 2
+                    </label>
+                    <label>
+                        <input type="radio" aria-controls="input-radio-3" name="radio" />
+                        Radio Button 3
+                    </label>
+                </div>
+
                 <div class="toggle" id="input-radio-1" data-group="input-radio">Toggle 1</div>
                 <div class="toggle" id="input-radio-2" data-group="input-radio">Toggle 2</div>
                 <div class="toggle" id="input-radio-3" data-group="input-radio">Toggle 3</div>
 
                 <h4>Select</h4>
-                <select aria-controls="select-1 select-2 select-3">
+                <select aria-controls="select-1 select-2 select-3" class="trigger">
                     <option value="1" aria-controls="select-1">Toggle 1</option>
                     <option value="2" aria-controls="select-2">Toggle 2</option>
                     <option value="3" aria-controls="select-3">Toggle 3</option>
@@ -389,38 +425,109 @@
                 <h4>Focus</h4>
 
                 <h5>Focus receive</h5>
+                <button type="button" aria-controls="focus-receive" class="trigger">Toggle</button>
                 <div id="focus-receive" class="toggle" data-focus="true">
                     <p>Just a basic toggle, but it receives focus when activated. <a href="#">Anchor</a></p>
                 </div>
-                <button type="button" aria-controls="focus-receive">Toggle</button>
+
 
                 <h5>Focus Containment</h5>
+                <button type="button" aria-controls="focus-contain" class="trigger">Toggle</button>
                 <div id="focus-contain" class="toggle" data-focus-contain="true">
-                    <p>Just a basic toggle, but it also has focus containment. This can be used as a dialog.</p>
-                    <a href="http://www.google.com">Anchor</a>
-                    <button type="button">Button</button>
+                    <p>Just a basic toggle, but it also has <a href="#">focus containment</a>. This can be used as a dialog.</p>
                     <button type="button" aria-controls="focus-contain">Deactivate toggle</button>
                 </div>
-                <button type="button" aria-controls="focus-contain">Toggle</button>
 
                 <h5>Focus Exclude</h5>
+                <button type="button" aria-controls="focus-exclude" class="trigger">Toggle</button>
                 <div id="focus-exclude" class="toggle" data-focus-exclude="true">
                     <p>Just a basic toggle, but it also has focus excludement.</p>
-                    <a href="http://www.google.com">Anchor</a>
-                    <button type="button">Button</button>
                     <button type="button" aria-controls="focus-exclude">Deactivate toggle</button>
                 </div>
-                <button type="button" aria-controls="focus-exclude">Toggle</button>
 
             </section>
 
             <section id="examples-advanced">
                 <h3>Advanced examples</h3>
+
+                <p>Below you'll find some advanced examples of how to use the UberToggle. These are all bare-bones example with some basic CSS and HTML. This example code is by no means meant to be copied and pasted in your own solutions. It's meant as a starting point.</p>
+
                 <h4>Tabs</h4>
+
+                <p>Each tab-panel has a <code>data-activate-only</code>-attribute.</p>
+
+                <div class="tabs">
+                    <ul class="tabs__nav">
+                        <li>
+                            <a href="#tab-1">Tab 1</a>
+                        </li>
+                        <li>
+                            <a href="#tab-2">Tab 2</a>
+                        </li>
+                        <li>
+                            <a href="#tab-3">Tab 3</a>
+                        </li>
+                    </ul>
+                    <div class="toggle tabs__panel" id="tab-1" data-group="tabs" data-activate-only="true" data-aria-hidden="true" data-focus-exclude="true" data-active="true" data-focus="true">
+                        <p>This is tab 1.</p>
+                        <p><a href="#tab-2">Go to tab 2</a></p>
+                    </div>
+                    <div class="toggle tabs__panel" id="tab-2" data-group="tabs" data-activate-only="true" data-aria-hidden="true" data-focus-exclude="true" data-focus="true">
+                        <p>This is tab 2.</p>
+                        <p><a href="#tab-3">Go to tab 3</a></p>
+                    </div>
+                    <div class="toggle tabs__panel" id="tab-3" data-group="tabs" data-activate-only="true" data-aria-hidden="true" data-focus-exclude="true" data-focus="true">
+                        <p>This is tab 3.</p>
+                        <p><a href="#tab-1">Go to tab 1</a></p>
+                    </div>
+                </div>
+
                 <h4>Accordion</h4>
 
+                <p>This is a basic example of how an accordion could be implemented using the UberToggle.</p>
+                <p>Please note that this is just a bare-bones example, in real-life you would need:</p>
+                <ul>
+                    <li>Semantically correct HTML with headings</li>
+                    <li>Probably insert the <code>Trigger</code>s dynamically</li>
+                    <li>Listen to key-press events to open and close <code>Toggle</code>s</li>
+                </ul>
+
+                <div class="accordion">
+                    <div class="accordion__panel">
+                        <div class="accordion__panel-header">
+                            <a href="#accordion-panel-1">Accordion Panel 1</a>
+                        </div>
+                        <div id="accordion-panel-1" class="accordion__panel-content toggle" data-group="accordion" data-aria-expanded="true" data-focus-exclude="true" data-focus="true">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="#">Vivamus mi felis</a>, suscipit ut laoreet aliquet, rhoncus in ligula. Nulla et sapien non est elementum vulputate. In euismod magna sed nunc ultricies, id pellentesque diam imperdiet. Vivamus at lorem eget mi commodo commodo. Donec ultricies ex sed enim feugiat semper. Curabitur convallis dictum rhoncus. Sed in posuere risus. Proin congue, purus a egestas mattis, velit risus placerat ligula, in ultricies nisi est at turpis. Ut feugiat a sapien ut commodo. Quisque felis massa, bibendum aliquet congue congue, bibendum in enim. Vivamus ullamcorper congue dolor, eget ornare mauris fringilla quis. Vestibulum quis suscipit ipsum.</p>
+                        </div>
+                    </div>
+                    <div class="accordion__panel">
+                        <div class="accordion__panel-header">
+                            <a href="#accordion-panel-2">Accordion Panel 2</a>
+                        </div>
+                        <div id="accordion-panel-2" class="accordion__panel-content toggle" data-group="accordion" data-aria-expanded="true" data-focus-exclude="true" data-focus="true">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="#">Vivamus mi felis</a>, suscipit ut laoreet aliquet, rhoncus in ligula. Nulla et sapien non est elementum vulputate. In euismod magna sed nunc ultricies, id pellentesque diam imperdiet. Vivamus at lorem eget mi commodo commodo. Donec ultricies ex sed enim feugiat semper. Curabitur convallis dictum rhoncus. Sed in posuere risus. Proin congue, purus a egestas mattis, velit risus placerat ligula, in ultricies nisi est at turpis. Ut feugiat a sapien ut commodo. Quisque felis massa, bibendum aliquet congue congue, bibendum in enim. Vivamus ullamcorper congue dolor, eget ornare mauris fringilla quis. Vestibulum quis suscipit ipsum.</p>
+                        </div>
+                    </div>
+                    <div class="accordion__panel">
+                        <div class="accordion__panel-header">
+                            <a href="#accordion-panel-3">Accordion Panel 3</a>
+                        </div>
+                        <div id="accordion-panel-3" class="accordion__panel-content toggle" data-group="accordion" data-aria-expanded="true" data-focus-exclude="true" data-focus="true">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <a href="#">Vivamus mi felis</a>, suscipit ut laoreet aliquet, rhoncus in ligula. Nulla et sapien non est elementum vulputate. In euismod magna sed nunc ultricies, id pellentesque diam imperdiet. Vivamus at lorem eget mi commodo commodo. Donec ultricies ex sed enim feugiat semper. Curabitur convallis dictum rhoncus. Sed in posuere risus. Proin congue, purus a egestas mattis, velit risus placerat ligula, in ultricies nisi est at turpis. Ut feugiat a sapien ut commodo. Quisque felis massa, bibendum aliquet congue congue, bibendum in enim. Vivamus ullamcorper congue dolor, eget ornare mauris fringilla quis. Vestibulum quis suscipit ipsum.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <h4>Modal</h4>
-                <button type="button" aria-controls="dialog">Open dialog</button>ls
+
+                <p>This is a basic example of how a modal window could be implemented using the UberToggle.</p>
+                <p>Please note that this is just a bare-bones example, in real-life you would need:</p>
+                <ul>
+                    <li>Listen to key-press events to open and close the dialog (e.g. the escape-key etc.)</li>
+                </ul>
+
+                <button type="button" aria-controls="dialog">Open dialog</button>
                 <div id="dialog" class="dialog toggle" data-aria-hidden="true" data-focus-contain="true" data-focus-exclude="true">
                     <div class="dialog__inner">
                         <p>
@@ -431,7 +538,6 @@
                     </div>
                 </div>
 
-                <h4>Tooltip</h4>
             </section>
         </section>
 

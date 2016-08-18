@@ -27,6 +27,7 @@ if(button) {
         toggle.href = '#toggle-dynamic';
         toggle.innerHTML = 'Toggle ' + count;
         toggle.id = id;
+        toggle.className = 'toggle';
         toggle.setAttribute('data-group', 'dynamic');
 
         // create trigger
