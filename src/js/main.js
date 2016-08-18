@@ -12,9 +12,12 @@ toggles.forEach(t => {
 });
 
 // dynamic toggles
-var button = document.getElementById('add-toggle');
+var button = document.getElementById('add-toggle'),
+    count = [].slice.apply(document.getElementById('dynamic-buttons').querySelectorAll('button')).length;
 if(button) {
     button.addEventListener('click', function () {
+
+        count++;
 
         // id
         var id = 'toggle-dynamic-group-' + Math.random().toString(36).substring(7);
@@ -22,14 +25,14 @@ if(button) {
         // create toggle
         var toggle = document.createElement('div');
         toggle.href = '#toggle-dynamic';
-        toggle.innerHTML = 'Toggle ' + new Date() + ')';
+        toggle.innerHTML = 'Toggle ' + count;
         toggle.id = id;
         toggle.setAttribute('data-group', 'dynamic');
 
         // create trigger
         var trigger = document.createElement('button');
         trigger.setAttribute('aria-controls', id);
-        trigger.innerHTML = 'Trigger (Dynamically generated at ' + new Date() + ')';
+        trigger.innerHTML = 'Trigger ' + count;
 
         // append
         document.getElementById('dynamic-toggles').appendChild(toggle);
@@ -37,24 +40,6 @@ if(button) {
 
         // create trigger and toggle
         new Toggle(toggle);
-        new Toggle(trigger);
-
-    });
-}
-
-var button = document.getElementById('add-trigger');
-if(button) {
-    button.addEventListener('click', function () {
-
-        // create trigger
-        var trigger = document.createElement('a');
-        trigger.href = '#toggle-dynamic';
-        trigger.innerHTML = 'Trigger (Dynamically generated at ' + new Date() + ')';
-
-        // append
-        button.parentNode.insertBefore(trigger, button);
-
-        // create trigger
         new Toggle(trigger);
 
     });
