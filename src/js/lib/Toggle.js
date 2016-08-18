@@ -11,7 +11,12 @@ const defaultOptions = {
     focusContain: false,
     focusExclude: false,
     group: false,
-    activateOnly: false
+    activateOnly: false,
+    ariaHidden: false,
+    ariaDisabled: false,
+    ariaExpanded: false,
+    ariaPressed: false,
+    ariaChecked: false
 };
 
 const focusableElements = ['a[href]', 'area[href]', 'input', 'select', 'textarea', 'button', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
@@ -53,9 +58,13 @@ module.exports = class Toggle {
 
     _getOption(key, options){
 
+        // 1st: If passed in to constructor, it has precedence
+
         if(options && options[key]){
             return options[key];
         }
+
+        // 2nd: DOM API
 
         if(this._element.dataset[key]){
             let attr = this._element.dataset[key];
@@ -71,9 +80,13 @@ module.exports = class Toggle {
             }
         }
 
+        // 3rd: Defaults
+
         if(defaultOptions && defaultOptions[key]){
             return defaultOptions[key];
         }
+
+        // 4th: False
 
         return false;
 
@@ -81,20 +94,24 @@ module.exports = class Toggle {
 
     /**
      * Merge options. First use options-object passed in to constructor, then DOM API, then defaults.
-     * @param {Object} options - Options passed to constructor.
      * @return {Object} The final options.
      * @private
      */
 
-    _mergeOptions(options = {}){
+    _mergeOptions(options){
 
         return {
-            outside: this._getOption('outside'),
-            focus: this._getOption('focus'),
-            focusContain: this._getOption('focusContain'),
-            focusExclude: this._getOption('focusExclude'),
-            group: this._getOption('group'),
-            activateOnly: this._getOption('activateOnly')
+            outside: this._getOption('outside', options),
+            focus: this._getOption('focus', options),
+            focusContain: this._getOption('focusContain', options),
+            focusExclude: this._getOption('focusExclude', options),
+            group: this._getOption('group', options),
+            activateOnly: this._getOption('activateOnly', options),
+            ariaHidden: this._getOption('ariaHidden', options),
+            ariaDisabled: this._getOption('ariaDisabled', options),
+            ariaExpanded: this._getOption('ariaExpanded', options),
+            ariaPressed: this._getOption('ariaPressed', options),
+            ariaChecked: this._getOption('ariaChecked', options)
         }
 
     }
@@ -306,16 +323,32 @@ module.exports = class Toggle {
             active: this.isActive()
         });
 
-        // Check if aria-hidden is available
-        if(this._element.hasAttribute('aria-hidden')){
+        // Set aria-hidden state
+        if(this._options.ariaHidden){
             this._element.setAttribute('aria-hidden', !this.isActive());
-            // check if aria-disabled is available
-        } else if(this._element.hasAttribute('aria-disabled')){
-            this._element.setAttribute('aria-disabled', !this.isActive());
-            // default
-        } else {
-            this._element.setAttribute('data-active', this.isActive());
         }
+
+        // Set aria-disabled state
+        if(this._options.ariaDisabled){
+            this._element.setAttribute('aria-disabled', !this.isActive());
+        }
+
+        // Set aria-collapsed state
+        if(this._options.ariaExpanded){
+            this._element.setAttribute('aria-expanded', this.isActive());
+        }
+
+        // Set aria-pressed state
+        if(this._options.ariaPressed){
+            this._element.setAttribute('aria-pressed', this.isActive());
+        }
+
+        // Set aria-checked state
+        if(this._options.ariaChecked){
+            this._element.setAttribute('aria-checked', this.isActive());
+        }
+
+        this._element.setAttribute('data-active', this.isActive());
 
         // Contain focus
         if(this._options.focusContain){

@@ -9,6 +9,7 @@ var Mediator = require('../utils/Mediator'),
     TriggerInputChoice = require('./TriggerInputChoice'),
     TriggerInputSelect = require('./TriggerInputSelect');
 
+
 module.exports = class Factory {
 
     constructor(element, options){
@@ -102,3 +103,4 @@ module.exports = class Factory {
     }
 
 };
+
