@@ -52,7 +52,20 @@ button {
   color: white;
   font-size: 1em;
   margin-right: .5em;
+  outline: none;
   padding: .75em;
+
+  &:focus,
+  &:hover {
+    box-shadow: inset .1em .1em .5em rgba(black, .15);
+  }
+
+  &:active,
+  &[data-active="true"]{
+    box-shadow: inset .1em .1em .5em rgba(black, .5);
+    outline: none;
+  }
+
 }
 
 a {
