@@ -2,14 +2,33 @@
 
 var toggle = require('../lib/Factory.js');
 
-console.log(toggle);
+var b = true;
 
-describe('b', function() {
+describe('A Toggle', function() {
 
-    var b = true;
-
-    it('should equal fixture contents', function() {
+    it('should become activated when it is toggled and it is currently deactivated', function() {
         expect(b).toEqual(true);
     });
+
+    it('should become deactivated when it is toggled and it is currently activated', function() {
+        expect(b).toEqual(true);
+    });
+
+    it('should become deactivated when a click is triggered outside of it and it is currently active', function() {
+        expect(b).toEqual(true);
+    });
+
+    it('should become activated when a hash-change event occurs with the new hash being its ID', function() {
+        expect(b).toEqual(true);
+    });
+
+    it('should become activated when it is toggled and it is currently deactivated', function() {
+        expect(b).toEqual(true);
+    });
+
+    it('should NOT become deactivated when it is toggled and it is currently activated', function() {
+        expect(b).toEqual(true);
+    });
+
 
 });
