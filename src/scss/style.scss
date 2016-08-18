@@ -5,6 +5,10 @@ body {
   max-width: 50em;
 }
 
+code {
+  background-color:
+}
+
 .toggle { background: green; }
 .activated { background: blue; }
 .activated::after { content: ' - active'; white-space: nowrap; }
