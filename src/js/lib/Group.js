@@ -42,14 +42,8 @@ export default class Group {
 
         let toggle = e.toggle;
 
-        if(this.containsToggle(toggle)){
-
-            if(e.active){
-                this._closeAllExcept(toggle);
-            } else if(!this.getActiveToggle() && this._default){
-                this._default.activate();
-            }
-
+        if(this.containsToggle(toggle) && e.active){
+            this._closeAllExcept(toggle);
         }
 
     }

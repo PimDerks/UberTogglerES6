@@ -1,12 +1,12 @@
 'use strict';
 
-var toggle = require('../lib/Factory.js');
+import Factory from "../lib/Factory.js";
 
 var fullToggle,
     fullToggleNode = document.createElement('div');
     fullToggleNode.className = 'full';
     fullToggleNode.id = 'full';
-    fullToggle = new toggle(fullToggleNode, {
+    fullToggle = new Factory(fullToggleNode, {
         ariaHidden: true,
         ariaDisabled: true,
         ariaExpanded: true,
@@ -17,7 +17,7 @@ var fullToggle,
 var bareToggle,
     bareToggleNode = document.createElement('div');
     bareToggleNode.className = 'bare';
-    bareToggle = new toggle(bareToggleNode, {
+    bareToggle = new Factory(bareToggleNode, {
         ariaHidden: false,
         ariaDisabled: false,
         ariaExpanded: false,

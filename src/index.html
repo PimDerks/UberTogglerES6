@@ -20,13 +20,13 @@
                     <a href="#features">Features</a>
                 </li>
                 <li>
+                    <a href="#examples">Examples</a>
+                </li>
+                <li>
                     <a href="#glossary">Glossary</a>
                 </li>
                 <li>
                     <a href="#configuration">Configuration</a>
-                </li>
-                <li>
-                    <a href="#examples">Examples</a>
                 </li>
             </ol>
         </nav>
@@ -43,272 +43,8 @@
                 <li>Grouping (for components like tabs, accordions, etc.)</li>
                 <li>Accessible (WAI-ARIA)</li>
                 <li>Events (mouseover, mouseleave, click)</li>
+                <li>Includes a set of unit test in Karma/Jasminec</li>
             </ul>
-        </section>
-
-        <section id="glossary">
-            <h2>Glossary</h2>
-
-            <h3>Toggle</h3>
-
-            <p>The main module of this library. A <code>Toggle</code> has two states.</p>
-
-            <h3>ToggleGroup</h3>
-
-            <p>A group of at least two instances of <code>Toggle</code>. Only one <code>Toggle</code can be active.</p>
-
-            <h3>Trigger</h3>
-
-            <p>A <code>Trigger</code> is like a lightswitch - it turns the light (in our case, a <code>Toggle</code>) on or off - but it has an on/off state itself as well.</p>
-
-            <p>It is recommended to only use elements which can be focused as Triggers.</p>
-
-            <ul>
-                <li>Button</li>
-                <li>Link</li>
-                <li>Input</li>
-            </ul>
-
-            <h4>TriggerInput</h4>
-
-            <p>This module is used for <code>input</code>-elements which are used as a <code>Trigger</code>. As soon as the input contains a value, the connected <code>Toggle</code> is activated.</p>
-
-            <h4>TriggerInputChoice</h4>
-
-            <p>This module is used for <code>input</code>-elements of the types <code>radio</code> or <code>checkbox</code> which are used as a <code>Trigger</code>. As soon as the input is checked, the connected <code>Toggle</code> is activated.</p>
-
-            <h4>TriggerInputSelect</h4>
-
-            <p>This module is used for <code>select</code>-elements of the types which are used as a <code>Trigger</code>. Each <code>option</code> has an <code>aria-controls</code>-attribute which controls the Toggle which should be activated.</p>
-
-            <h4>TriggerLink</h4>
-
-            <p>This module is used for <code>a</code>-elements which are used as a <code>Trigger</code>. When the link is clicked, the <code>Toggle</code> is (de)activated, depending on its current state.</p>
-
-            <h3>Manager</h3>
-
-            <p>This module keeps tracks of all the instances of <code>Toggle</code> which currently exist.</p>
-
-            <h3>Factory</h3>
-
-            <p>This module is used to determine which type of <code>Trigger</code> or <code>Toggle</code> should be created.</p>
-        </section>
-
-        <section id="usage">
-
-            <h2>Usage</h2>
-
-            <h3>HTML</h3>
-
-            <p>For anchor-elements simply use the <code>href</code>-attribute.</p>
-
-            <p>For other-elements, use the <code>aria-controls</code>-attribute with a space-separated list of element identifiers (e.g. <code>aria-controls="lorem ipsum dolor"</code>).</p>
-
-            <p>These attributes can also be used together. So if you want to target multiple Toggles with a single anchor Trigger, use the <code>href</code> in combination with <code>aria-controls</code>. Of course you should consider if using an <code>a</code> is the correct element for your use-case first. Changes are that if you want to target multiple items at once you're better off using a <code>button</code>.</p>
-
-            <h3>JavaScript</h3>
-
-            <p>Toggles and triggers can also be generated dynamically via JavaScript.</p>
-
-            <h4>Dynamically creating toggles and triggers</h4>
-
-            <div id="dynamic-buttons" class="trigger">
-                <button aria-controls="toggle-dynamic-group-1">Trigger 1</button>
-                <button aria-controls="toggle-dynamic-group-2">Trigger 2</button>
-                <button aria-controls="toggle-dynamic-group-3">Trigger 3</button>
-            </div>
-
-            <div id="dynamic-toggles">
-                <div class="toggle" id="toggle-dynamic-group-1" data-group="dynamic">Toggle 1</div>
-                <div class="toggle" id="toggle-dynamic-group-2" data-group="dynamic">Toggle 2</div>
-                <div class="toggle" id="toggle-dynamic-group-3" data-group="dynamic">Toggle 3</div>
-            </div>
-
-            <div class="trigger">
-                <button id="add-toggle">Add toggle</button>
-            </div>
-
-            <pre><code class="language-js">// Generate 'random' id
-        var id = 'toggle-dynamic-group-' + Math.random().toString(36).substring(7);
-
-        // create toggle
-        var toggle = document.createElement('div');
-        toggle.href = '#toggle-dynamic';
-        toggle.innerHTML = 'Toggle';
-        toggle.id = id;
-        toggle.setAttribute('data-group', 'dynamic');
-
-        // create trigger
-        var trigger = document.createElement('button');
-        trigger.setAttribute('aria-controls', id);
-        trigger.innerHTML = 'Trigger';
-
-        // create trigger and toggle
-        new Toggle(toggle);
-        new Toggle(trigger);
-
-        // append in DOM or whatever...</code></pre>
-
-        </section>
-
-        <section id="configuration">
-
-            <h2>Configuration</h2>
-
-            <ul>
-                <li>DOM API</li>
-                <li>JSON to constructor</li>
-            </ul>
-
-            <h3>Outside</h3>
-
-            <p>For components like dropdown-menus or tooltips it might be necessary to automatically close the <code>Toggle</code> when the users focus shifts elsewhere.</p>
-
-            <h4>Options</h4>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th scope="col">Value</th>
-                        <th scope="result">Result</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="col"><code>both</code></th>
-                        <td>Targetted <code>Toggle</code>s close when hovered or clicked outside.</td>
-                    </tr>
-                    <tr>
-                        <th scope="col"><code>mouse</code></th>
-                        <td>Targetted <code>Toggle</code>s close when hovered outside.</td>
-                    </tr>
-                    <tr>
-                        <th scope="col"><code>click</code></th>
-                        <td>Targetted <code>Toggle</code>s close when clicked outside.</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>Group</h3>
-
-            <p>Combine multiple <code>Toggle</code>s to create elements like tabs, accordions or other elements where only one item can be active at a given time.</p>
-
-            <h3>Activate only</h3>
-
-            <p>Some <code>Toggle</code>s might be one-way - they can only be activated, but not closed again. Think of tabs, where clicking multiple times on a tab should not open/close it over and over again.</p>
-
-            <h3>Focus</h3>
-
-            <p>Set this option to true to automatically set focus to the <code>Toggle</code> when it is activated.</p>
-
-            <h3>Focus Contain</h3>
-
-            <p>Set this option to true to trap focus inside the <code>Toggle</code> when it is activated.</p>
-
-            <h3>Focus Exclude</h3>
-
-            <p>Set this option to true to prevent the element (and its children) from receiving focus <code>Toggle</code> when it is deactivated.</p>
-
-            <h3>ARIA Hidden</h3>
-
-            <p>Set this option to true to set <code>aria-hidden</code>-attributes on the <code>Toggle</code> or <code>Trigger</code>.</p>
-
-            <h3>ARIA Disabled</h3>
-
-            <p>Set this option to true to set <code>aria-disabled</code>-attributes on the <code>Toggle</code> or <code>Trigger</code>.</p>
-
-            <h3>ARIA Expanded</h3>
-
-            <p>Set this option to true to set <code>aria-expanded</code>-attributes on the <code>Toggle</code> or <code>Trigger</code>.</p>
-
-            <h3>ARIA Pressed</h3>
-
-            <p>Set this option to true to set <code>aria-pressed</code>-attributes on the <code>Toggle</code> or <code>Trigger</code>.</p>
-
-            <h3>ARIA Checked</h3>
-
-            <p>Set this option to true to set <code>aria-checked</code>-attributes on the <code>Toggle</code> or <code>Trigger</code>.</p>
-
-            <h3>Overview</h3>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th scope="col">Option</th>
-                        <th scope="col">JSON</th>
-                        <th scope="col">DOM API</th>
-                        <th scope="col">Default</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="col">Outside</th>
-                        <td><code>outside</code></td>
-                        <td><code>data-outside</code></td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <th scope="col">Group</th>
-                        <td><code>group</code></td>
-                        <td><code>data-group</code></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th scope="col">Activate Only</th>
-                        <td><code>activateOnly</code></td>
-                        <td><code>data-activate-only</code></td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <th scope="col">Focus</th>
-                        <td><code>focus</code></td>
-                        <td><code>data-focus</code></td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <th scope="col">Focus Contain</th>
-                        <td><code>focusContain</code></td>
-                        <td><code>data-focus-contain</code></td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <th scope="col">Focus Exclude</th>
-                        <td><code>focus-exclude</code></td>
-                        <td><code>data-focus-exclude</code></td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <th scope="col">aria-hidden</th>
-                        <td><code>ariaHidden</code></td>
-                        <td><code>data-aria-hidden</code></td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <th scope="col">aria-disabled</th>
-                        <td><code>ariaDisabled</code></td>
-                        <td><code>data-aria-disabled</code></td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <th scope="col">aria-expanded</th>
-                        <td><code>ariaExpanded</code></td>
-                        <td><code>data-aria-expanded</code></td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <th scope="col">aria-pressed</th>
-                        <td><code>ariaPressed</code></td>
-                        <td><code>data-aria-pressed</code></td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <th scope="col">aria-checked</th>
-                        <td><code>ariaChecked</code></td>
-                        <td><code>data-aria-checked</code></td>
-                        <td>false</td>
-                    </tr>
-                </tbody>
-            </table>
         </section>
 
         <section id="examples">
@@ -539,6 +275,271 @@
                 </div>
 
             </section>
+        </section>
+
+        <section id="glossary">
+            <h2>Glossary</h2>
+
+            <h3>Toggle</h3>
+
+            <p>The main module of this library. A <code>Toggle</code> has two states.</p>
+
+            <h3>ToggleGroup</h3>
+
+            <p>A group of at least two instances of <code>Toggle</code>. Only one <code>Toggle</code can be active.</p>
+
+            <h3>Trigger</h3>
+
+            <p>A <code>Trigger</code> is like a lightswitch - it turns the light (in our case, a <code>Toggle</code>) on or off - but it has an on/off state itself as well.</p>
+
+            <p>It is recommended to only use elements which can be focused as Triggers.</p>
+
+            <ul>
+                <li>Button</li>
+                <li>Link</li>
+                <li>Input</li>
+            </ul>
+
+            <h4>TriggerInput</h4>
+
+            <p>This module is used for <code>input</code>-elements which are used as a <code>Trigger</code>. As soon as the input contains a value, the connected <code>Toggle</code> is activated.</p>
+
+            <h4>TriggerInputChoice</h4>
+
+            <p>This module is used for <code>input</code>-elements of the types <code>radio</code> or <code>checkbox</code> which are used as a <code>Trigger</code>. As soon as the input is checked, the connected <code>Toggle</code> is activated.</p>
+
+            <h4>TriggerInputSelect</h4>
+
+            <p>This module is used for <code>select</code>-elements of the types which are used as a <code>Trigger</code>. Each <code>option</code> has an <code>aria-controls</code>-attribute which controls the Toggle which should be activated.</p>
+
+            <h4>TriggerLink</h4>
+
+            <p>This module is used for <code>a</code>-elements which are used as a <code>Trigger</code>. When the link is clicked, the <code>Toggle</code> is (de)activated, depending on its current state.</p>
+
+            <h3>Manager</h3>
+
+            <p>This module keeps tracks of all the instances of <code>Toggle</code> which currently exist.</p>
+
+            <h3>Factory</h3>
+
+            <p>This module is used to determine which type of <code>Trigger</code> or <code>Toggle</code> should be created.</p>
+        </section>
+
+        <section id="usage">
+
+            <h2>Usage</h2>
+
+            <h3>HTML</h3>
+
+            <p>For anchor-elements simply use the <code>href</code>-attribute.</p>
+
+            <p>For other-elements, use the <code>aria-controls</code>-attribute with a space-separated list of element identifiers (e.g. <code>aria-controls="lorem ipsum dolor"</code>).</p>
+
+            <p>These attributes can also be used together. So if you want to target multiple Toggles with a single anchor Trigger, use the <code>href</code> in combination with <code>aria-controls</code>. Of course you should consider if using an <code>a</code> is the correct element for your use-case first. Changes are that if you want to target multiple items at once you're better off using a <code>button</code>.</p>
+
+            <h3>JavaScript</h3>
+
+            <p>Toggles and triggers can also be generated dynamically via JavaScript.</p>
+
+            <h4>Dynamically creating toggles and triggers</h4>
+
+            <div id="dynamic-buttons" class="trigger">
+                <button aria-controls="toggle-dynamic-group-1">Trigger 1</button>
+                <button aria-controls="toggle-dynamic-group-2">Trigger 2</button>
+                <button aria-controls="toggle-dynamic-group-3">Trigger 3</button>
+            </div>
+
+            <div id="dynamic-toggles">
+                <div class="toggle" id="toggle-dynamic-group-1" data-group="dynamic">Toggle 1</div>
+                <div class="toggle" id="toggle-dynamic-group-2" data-group="dynamic">Toggle 2</div>
+                <div class="toggle" id="toggle-dynamic-group-3" data-group="dynamic">Toggle 3</div>
+            </div>
+
+            <div class="trigger">
+                <button id="add-toggle">Add toggle</button>
+            </div>
+
+            <pre><code class="language-js">// Generate 'random' id
+                var id = 'toggle-dynamic-group-' + Math.random().toString(36).substring(7);
+
+                // create toggle
+                var toggle = document.createElement('div');
+                toggle.href = '#toggle-dynamic';
+                toggle.innerHTML = 'Toggle';
+                toggle.id = id;
+                toggle.setAttribute('data-group', 'dynamic');
+
+                // create trigger
+                var trigger = document.createElement('button');
+                trigger.setAttribute('aria-controls', id);
+                trigger.innerHTML = 'Trigger';
+
+                // create trigger and toggle
+                new Toggle(toggle);
+                new Toggle(trigger);
+
+                // append in DOM or whatever...</code></pre>
+
+        </section>
+
+        <section id="configuration">
+
+            <h2>Configuration</h2>
+
+            <ul>
+                <li>DOM API</li>
+                <li>JSON to constructor</li>
+            </ul>
+
+            <h3>Outside</h3>
+
+            <p>For components like dropdown-menus or tooltips it might be necessary to automatically close the <code>Toggle</code> when the users focus shifts elsewhere.</p>
+
+            <h4>Options</h4>
+
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col">Value</th>
+                    <th scope="result">Result</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="col"><code>both</code></th>
+                    <td>Targetted <code>Toggle</code>s close when hovered or clicked outside.</td>
+                </tr>
+                <tr>
+                    <th scope="col"><code>mouse</code></th>
+                    <td>Targetted <code>Toggle</code>s close when hovered outside.</td>
+                </tr>
+                <tr>
+                    <th scope="col"><code>click</code></th>
+                    <td>Targetted <code>Toggle</code>s close when clicked outside.</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3>Group</h3>
+
+            <p>Combine multiple <code>Toggle</code>s to create elements like tabs, accordions or other elements where only one item can be active at a given time.</p>
+
+            <h3>Activate only</h3>
+
+            <p>Some <code>Toggle</code>s might be one-way - they can only be activated, but not closed again. Think of tabs, where clicking multiple times on a tab should not open/close it over and over again.</p>
+
+            <h3>Focus</h3>
+
+            <p>Set this option to true to automatically set focus to the <code>Toggle</code> when it is activated.</p>
+
+            <h3>Focus Contain</h3>
+
+            <p>Set this option to true to trap focus inside the <code>Toggle</code> when it is activated.</p>
+
+            <h3>Focus Exclude</h3>
+
+            <p>Set this option to true to prevent the element (and its children) from receiving focus <code>Toggle</code> when it is deactivated.</p>
+
+            <h3>ARIA Hidden</h3>
+
+            <p>Set this option to true to set <code>aria-hidden</code>-attributes on the <code>Toggle</code> or <code>Trigger</code>.</p>
+
+            <h3>ARIA Disabled</h3>
+
+            <p>Set this option to true to set <code>aria-disabled</code>-attributes on the <code>Toggle</code> or <code>Trigger</code>.</p>
+
+            <h3>ARIA Expanded</h3>
+
+            <p>Set this option to true to set <code>aria-expanded</code>-attributes on the <code>Toggle</code> or <code>Trigger</code>.</p>
+
+            <h3>ARIA Pressed</h3>
+
+            <p>Set this option to true to set <code>aria-pressed</code>-attributes on the <code>Toggle</code> or <code>Trigger</code>.</p>
+
+            <h3>ARIA Checked</h3>
+
+            <p>Set this option to true to set <code>aria-checked</code>-attributes on the <code>Toggle</code> or <code>Trigger</code>.</p>
+
+            <h3>Overview</h3>
+
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col">Option</th>
+                    <th scope="col">JSON</th>
+                    <th scope="col">DOM API</th>
+                    <th scope="col">Default</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="col">Outside</th>
+                    <td><code>outside</code></td>
+                    <td><code>data-outside</code></td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <th scope="col">Group</th>
+                    <td><code>group</code></td>
+                    <td><code>data-group</code></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="col">Activate Only</th>
+                    <td><code>activateOnly</code></td>
+                    <td><code>data-activate-only</code></td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <th scope="col">Focus</th>
+                    <td><code>focus</code></td>
+                    <td><code>data-focus</code></td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <th scope="col">Focus Contain</th>
+                    <td><code>focusContain</code></td>
+                    <td><code>data-focus-contain</code></td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <th scope="col">Focus Exclude</th>
+                    <td><code>focus-exclude</code></td>
+                    <td><code>data-focus-exclude</code></td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <th scope="col">aria-hidden</th>
+                    <td><code>ariaHidden</code></td>
+                    <td><code>data-aria-hidden</code></td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <th scope="col">aria-disabled</th>
+                    <td><code>ariaDisabled</code></td>
+                    <td><code>data-aria-disabled</code></td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <th scope="col">aria-expanded</th>
+                    <td><code>ariaExpanded</code></td>
+                    <td><code>data-aria-expanded</code></td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <th scope="col">aria-pressed</th>
+                    <td><code>ariaPressed</code></td>
+                    <td><code>data-aria-pressed</code></td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <th scope="col">aria-checked</th>
+                    <td><code>ariaChecked</code></td>
+                    <td><code>data-aria-checked</code></td>
+                    <td>false</td>
+                </tr>
+                </tbody>
+            </table>
         </section>
 
         <script src="bundle.js"></script>
