@@ -1,20 +1,23 @@
 'use strict';
 
-import Focus from './utils/Focus';
-import $$ from './utils/QuerySelector';
-import Factory from './lib/Factory';
-import Mediator from './utils/Mediator';
+require('babel-core/register');
+
+var Focus = require('./utils/Focus'),
+    Toggle = require('./lib/Factory'),
+    $$ = require('./utils/QuerySelector');
 
 // create Toggles
 var toggles = $$('.toggle');
-toggles.forEach(t => {
-    new Factory(t);
+toggles.forEach(function (t) {
+    "use strict";
+
+    new Toggle(t);
 });
 
 // dynamic toggles
 var button = document.getElementById('add-toggle'),
     count = [].slice.apply(document.getElementById('dynamic-buttons').querySelectorAll('button')).length;
-if(button) {
+if (button) {
     button.addEventListener('click', function () {
 
         count++;
@@ -40,8 +43,7 @@ if(button) {
         document.getElementById('dynamic-buttons').appendChild(trigger);
 
         // create trigger and toggle
-        new Factory(toggle);
-        new Factory(trigger);
-
+        new Toggle(toggle);
+        new Toggle(trigger);
     });
 }

@@ -1,22 +1,22 @@
 'use strict';
 
-var Mediator = require('../utils/Mediator'),
-    Manager = require('./Manager'),
-    Toggle = require('./Toggle'),
-    Trigger = require('./Trigger'),
-    TriggerInput = require('./TriggerInput'),
-    TriggerLink = require('./TriggerLink'),
-    TriggerInputChoice = require('./TriggerInputChoice'),
-    TriggerInputSelect = require('./TriggerInputSelect');
+import Mediator from "../utils/Mediator";
+import Manager from "./Manager";
+import Toggle from "./Toggle";
+import Trigger from "./Trigger";
+import TriggerInput from "./TriggerInput";
+import TriggerLink from "./TriggerLink";
+import TriggerInputChoice from "./TriggerInputChoice";
+import TriggerInputSelect from "./TriggerInputSelect";
 
 
-module.exports = class Factory {
+export default class Factory {
 
     constructor(element, options){
 
         this._element = element;
         this._options = options;
-        this._manager = Manager.getInstance();
+        this._manager = Manager;
         this._initialize();
 
     }
@@ -98,4 +98,3 @@ module.exports = class Factory {
     }
 
 };
-

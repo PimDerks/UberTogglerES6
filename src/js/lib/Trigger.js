@@ -1,8 +1,8 @@
 'use strict';
 
-var Toggle = require('./Toggle');
+import Toggle from "./Toggle";
 
-module.exports = class Trigger extends Toggle {
+export default class Trigger extends Toggle {
 
     constructor(element, options) {
 

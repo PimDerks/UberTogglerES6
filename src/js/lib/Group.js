@@ -1,8 +1,8 @@
 'use strict';
 
-var Mediator = require('../utils/Mediator');
+import Mediator from "../utils/Mediator";
 
-module.exports = class Group {
+export default class Group {
 
     constructor(id){
 
@@ -25,7 +25,7 @@ module.exports = class Group {
 
     _initialize(){
 
-        this._mediator = Mediator.getInstance();
+        this._mediator = Mediator;
         this._onToggleBind = this._onToggle.bind(this);
         this._mediator.subscribe('toggle', this._onToggleBind);
 
@@ -66,11 +66,6 @@ module.exports = class Group {
 
         // add
         this._toggles.push(Toggle);
-
-        // check if default
-        if(Toggle.getElement().dataset.groupDefault){
-            this._default = Toggle;
-        }
 
     }
 

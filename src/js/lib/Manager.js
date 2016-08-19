@@ -1,14 +1,21 @@
 'use strict';
 
-var _instance;
+let _instance;
 
-var Group = require('./Group');
+import Group from "./Group";
 
 class Manager {
 
     constructor(){
-        this._toggles = [];
-        this._groups = [];
+
+        if (!_instance) {
+            this._toggles = [];
+            this._groups = [];
+            _instance = this;
+        }
+
+        return _instance;
+
     }
 
     /**
@@ -37,12 +44,12 @@ class Manager {
     remove(Toggle) {
 
         // check if part of group
-        let group = Toggle.getGroup();
-        if (group) {
+        let groupMember = Toggle.getGroup();
+        if (groupMember) {
 
             // check if group exists
-            if (this._groups[group]) {
-                this._groups[group].remove(Toggle);
+            if (this._groups[groupMember]) {
+                this._groups[groupMember].remove(Toggle);
             }
 
         }
@@ -134,11 +141,4 @@ class Manager {
 
 }
 
-module.exports = {
-    getInstance:function(){
-        if (!_instance){
-            _instance = new Manager();
-        }
-        return _instance;
-    }
-};
+export default new Manager;

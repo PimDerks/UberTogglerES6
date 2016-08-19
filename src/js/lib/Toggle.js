@@ -1,11 +1,11 @@
 'use strict';
 
-var Mediator = require('../utils/Mediator'),
-    Focus = require('../utils/Focus'),
-    Manager = require('./Manager'),
-    $$ = require('../utils/QuerySelector');
+import Mediator from "../utils/Mediator";
+import Focus from "../utils/Focus";
+import Manager from "./Manager";
+import $$ from "../utils/QuerySelector";
 
-const defaultOptions = {
+var defaultOptions = {
     outside: false,
     focus: false,
     focusContain: false,
@@ -35,10 +35,10 @@ module.exports = class Toggle {
         this._id = this.getId();
 
         // Get instance of the Mediator
-        this._mediator = Mediator.getInstance();
+        this._mediator = Mediator;
 
         // Get instance of the Manager
-        this._manager = Manager.getInstance();
+        this._manager = Manager;
 
         // Shortcuts for events
         this._shortcuts = this._getShortcuts();

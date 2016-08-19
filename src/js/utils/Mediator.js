@@ -1,11 +1,17 @@
 'use strict';
 
-var _instance;
+let _instance;
 
 class Mediator {
 
     constructor(){
-        this._topics = {};
+
+        if (!_instance) {
+            this._topics = {};
+            _instance = this;
+        }
+
+        return _instance;
     }
 
     /**
@@ -69,11 +75,4 @@ class Mediator {
 
 }
 
-module.exports = {
-    getInstance:function(){
-        if (!_instance){
-            _instance = new Mediator();
-        }
-        return _instance;
-    }
-};
+export default new Mediator;

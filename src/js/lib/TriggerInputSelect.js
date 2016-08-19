@@ -1,8 +1,8 @@
 'use strict';
 
-var TriggerInput = require('./TriggerInput');
+import TriggerInput from "./TriggerInput";
 
-module.exports = class TriggerInputSelect extends TriggerInput {
+export default class TriggerInputSelect extends TriggerInput {
 
     constructor(element, options) {
 

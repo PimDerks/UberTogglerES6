@@ -3,12 +3,15 @@ var gulp = require("gulp"),
     babel = require("gulp-babel"),
     concat = require("gulp-concat"),
     browserify = require("browserify"),
+    babelify = require('babelify'),
     through2 = require("through2"),
     rename = require("gulp-rename"),
     browserSync = require('browser-sync').create(),
     Server = require('karma').Server,
     sass = require('gulp-sass'),
-    plumber = require('gulp-plumber');
+    plumber = require('gulp-plumber'),
+    print = require('gulp-print'),
+    source = require('vinyl-source-stream');
 
 var dirs = {
     src: './src',
@@ -34,22 +37,10 @@ gulp.task('es6-amd', function(){
 });
 
 gulp.task("javascript", function () {
-    return gulp.src('./src/js/main.js')
-        .pipe(through2.obj(function (file, enc, next) {
-            browserify(file.path, { debug: process.env.NODE_ENV === 'development' })
-                .transform(require('babelify'))
-                .bundle(function (err, res) {
-                    if (err) { return next(err); }
-
-                    file.contents = res;
-                    next(null, file);
-                });
-        }))
-        .on('error', function (error) {
-            console.log(error.stack);
-            this.emit('end');
-        })
-        .pipe(require('gulp-rename')('bundle.js'))
+    return browserify({entries: './src/js/main.js', extensions: ['.js'], debug: true})
+        .transform(babelify)
+        .bundle()
+        .pipe(source('bundle.js'))
         .pipe(gulp.dest(dirs.dest));
 
 });
@@ -57,7 +48,7 @@ gulp.task("javascript", function () {
 gulp.task("compile", ["copy", "sass", "javascript"]);
 
 gulp.task("watch", function(){
-    gulp.watch(dirs.src + "/**/*", ["compile", "test"]);
+    gulp.watch(dirs.src + "/**/*", ["compile"]);
 });
 
 gulp.task("sass", function(){
@@ -107,5 +98,5 @@ gulp.task("serve", function(){
 
 });
 
-gulp.task("default", ["compile", "watch", "serve", "watch-dist", "test"]);
-// gulp.task("default", ["compile", "watch", "serve", "watch-dist"]);
+// gulp.task("default", ["compile", "watch", "serve", "watch-dist", "test"]);
+gulp.task("default", ["compile", "watch", "serve", "watch-dist"]);

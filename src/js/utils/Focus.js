@@ -1,10 +1,10 @@
 'use strict';
 
-var $$ = require('./QuerySelector');
+import $$ from "./QuerySelector";
 
 const focusableElements = ['a[href]', 'area[href]', 'input', 'select', 'textarea', 'button', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
 
-module.exports = class Focus {
+export default class Focus {
 
     constructor(element){
         this._element = element;
