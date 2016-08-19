@@ -25,15 +25,19 @@ var bareToggle,
         ariaChecked: false
     }).getToggle();
 
+var beforeEach = function(){
+    fullToggle.register();
+    fullToggle.update();
+    bareToggle.register();
+    bareToggle.update();
+};
+
 describe('Initial setup', function() {
 
     var actual,
         expected;
 
-    beforeEach(function(){
-        fullToggle.update();
-        bareToggle.update();
-    });
+    beforeEach(beforeEach);
 
     it('should add an ID to the node when it does not exist', function(){
         actual = bareToggle.getElement().id !== '';
@@ -97,3 +101,86 @@ describe('Initial setup', function() {
     });
 
 });
+
+describe('State management', function(){
+
+    beforeEach(beforeEach);
+
+    var checkAttribute = function(toggle, attr, reverse){
+
+        // first check
+        var initial = (reverse ? !toggle.isActive() : toggle.isActive()) + '',
+            at = toggle.getElement().getAttribute(attr);
+        expect(at).toBe(initial);
+
+        // update toggle
+        toggle.activate();
+
+        // 2nd check
+        var final = (reverse ? !toggle.isActive() : toggle.isActive()) + '',
+            at = toggle.getElement().getAttribute(attr);
+        expect(at).toBe(final);
+
+    };
+
+    it('should update the data-active attribute when toggled', function(){
+        checkAttribute(bareToggle, 'data-active');
+    });
+
+    it('should update the aria-hidden attribute (when that option is set to true) when toggled', function() {
+        checkAttribute(fullToggle, 'aria-hidden', true);
+    });
+
+    it('should update the aria-expanded attribute (when that option is set to true) when toggled', function() {
+        checkAttribute(fullToggle, 'aria-expanded');
+    });
+
+    it('should update the aria-disabled attribute (when that option is set to true) when toggled', function() {
+        checkAttribute(fullToggle, 'aria-disabled', true);
+    });
+
+    it('should update the aria-pressed attribute (when that option is set to true) when toggled', function() {
+        checkAttribute(fullToggle, 'aria-pressed');
+    });
+
+    it('should update the aria-checked attribute (when that option is set to true) when toggled', function() {
+        checkAttribute(fullToggle, 'aria-checked');
+    });
+
+});
+
+xdescribe('JavaScript API', function() {
+
+    it('should should deactivate with the JavaScript API', function() {
+    });
+
+    it('should should activate with the JavaScript API', function() {
+    });
+
+});
+
+xdescribe('DOM API', function() {
+
+    it('should should deactivate with the DOM API', function() {
+    });
+
+    it('should should activate with the DOM API', function() {
+    });
+
+});
+
+xdescribe('Focus handling', function(){
+
+    it('should remove elements from the focus order when the focus-exclude option is active', function(){
+
+    });
+
+    it('should trap the focus when the focus-contain option is active', function(){
+
+    });
+
+    it('should receive focus when activated when the focus-option is active', function(){
+
+    });
+
+})

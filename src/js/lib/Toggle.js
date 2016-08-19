@@ -232,6 +232,7 @@ module.exports = class Toggle {
         // set initial state
         this.isActive() ? this.activate() : this.deactivate();
 
+
     }
 
 
@@ -380,15 +381,8 @@ module.exports = class Toggle {
         // first check if one of the triggers is active
         if(this.hasActiveTrigger() || this.hasActiveHash()){
             return true;
-            // check if aria-hidden is available
-        } else if(this._element.hasAttribute('aria-hidden')){
-            return this._element.getAttribute('aria-hidden') === "false";
-            // check if aria-disabled is available
-        } else if(this._element.hasAttribute('aria-disabled')){
-            return this._element.getAttribute('aria-disabled') === "false";
-            // default
-        } else {
-            return this._element.getAttribute('data-active') === "true";
+        } else if(this._element.dataset.active) {
+            return this._element.dataset.active === "true";
         }
 
         // default
