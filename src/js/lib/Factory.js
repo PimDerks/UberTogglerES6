@@ -47,11 +47,6 @@ module.exports = class Factory {
             return;
         }
 
-        // check if it's a dialog
-        if(node.getAttribute('role') === 'dialog'){
-            options.focusContain = true;
-        }
-
         switch(name){
             case 'select':
                 toggle = new TriggerInputSelect(node, options);

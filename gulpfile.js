@@ -107,5 +107,5 @@ gulp.task("serve", function(){
 
 });
 
-// gulp.task("default", ["compile", "watch", "serve", "watch-dist", "test"]);
-gulp.task("default", ["compile", "watch", "serve", "watch-dist"]);
+gulp.task("default", ["compile", "watch", "serve", "watch-dist", "test"]);
+// gulp.task("default", ["compile", "watch", "serve", "watch-dist"]);
