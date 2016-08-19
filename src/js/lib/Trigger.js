@@ -49,6 +49,30 @@ export default class Trigger extends Toggle {
     }
 
     /**
+     * Get object of booleans for the default configuration for this module.
+     * @return {Object}
+     * @private
+     */
+
+    _getDefaults(){
+
+        return {
+            outside: false,
+            focus: false,
+            focusContain: false,
+            focusExclude: false,
+            group: false,
+            activateOnly: false,
+            ariaHidden: false,
+            ariaDisabled: false,
+            ariaExpanded: false,
+            ariaPressed: this._element.nodeName.toLowerCase() === 'button',
+            ariaChecked: this._element.nodeName.toLowerCase() === 'input' && (this._element.getAttribute('type') === 'radio' || this._element.getAttribute('type') === 'checkbox')
+        }
+
+    }
+
+    /**
      * Bind events/handlers.
      * @param {Boolean} bind - To bind or to unbind.
      * @private

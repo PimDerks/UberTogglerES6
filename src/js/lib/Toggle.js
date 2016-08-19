@@ -5,20 +5,6 @@ import Focus from "../utils/Focus";
 import Manager from "./Manager";
 import $$ from "../utils/QuerySelector";
 
-var defaultOptions = {
-    outside: false,
-    focus: false,
-    focusContain: false,
-    focusExclude: false,
-    group: false,
-    activateOnly: false,
-    ariaHidden: false,
-    ariaDisabled: false,
-    ariaExpanded: false,
-    ariaPressed: false,
-    ariaChecked: false
-};
-
 const focusableElements = ['a[href]', 'area[href]', 'input', 'select', 'textarea', 'button', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
 
 module.exports = class Toggle {
@@ -26,6 +12,7 @@ module.exports = class Toggle {
     constructor(element, options) {
 
         this._element = element;
+        this._defaults = this._getDefaults();
         this._options = this._mergeOptions(options);
 
         // Set ID of Toggle
@@ -82,8 +69,8 @@ module.exports = class Toggle {
 
         // 3rd: Defaults
 
-        if(defaultOptions && defaultOptions[key]){
-            return defaultOptions[key];
+        if(this._defaults && this._defaults[key]){
+            return this._defaults[key];
         }
 
         // 4th: False
@@ -177,6 +164,30 @@ module.exports = class Toggle {
             'bodyclick': this._onBodyClick.bind(this),
             'mouseenter': this._onMouseEnter.bind(this),
             'mouseleave': this._onMouseLeave.bind(this)
+        }
+
+    }
+
+    /**
+     * Get object of booleans for the default configuration for this module.
+     * @return {Object}
+     * @private
+     */
+
+    _getDefaults(){
+
+        return {
+            outside: false,
+            focus: false,
+            focusContain: false,
+            focusExclude: false,
+            group: false,
+            activateOnly: false,
+            ariaHidden: false,
+            ariaDisabled: false,
+            ariaExpanded: false,
+            ariaPressed: false,
+            ariaChecked: false
         }
 
     }
