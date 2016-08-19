@@ -5,6 +5,8 @@
 .CVS
 .idea
 dest
+dist
+build
 amd
 *.css
 *.map
