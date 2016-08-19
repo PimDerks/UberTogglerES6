@@ -14,6 +14,11 @@ var fullToggle,
         ariaChecked: true
     }).getToggle();
 
+var trigger,
+    triggerNode = document.createElement('button');
+    triggerNode.setAttribute('aria-controls', 'full');
+    trigger = new Factory(triggerNode).getToggle();
+
 var bareToggle,
     bareToggleNode = document.createElement('div');
     bareToggleNode.className = 'bare';
@@ -149,22 +154,62 @@ describe('State management', function(){
 
 });
 
-xdescribe('JavaScript API', function() {
+describe('JavaScript API', function() {
+
+    beforeEach(beforeEach);
 
     it('should should deactivate with the JavaScript API', function() {
+
+        // set to disabled
+        fullToggle.activate();
+        expect(fullToggle.isActive()).toBe(true);
+
+        // set to enabled
+        fullToggle.deactivate();
+        expect(fullToggle.isActive()).toBe(false);
+
     });
 
     it('should should activate with the JavaScript API', function() {
+
+        // set to disabled
+        fullToggle.deactivate();
+        expect(fullToggle.isActive()).toBe(false);
+
+        // set to enabled
+        fullToggle.activate();
+        expect(fullToggle.isActive()).toBe(true);
+
     });
 
 });
 
-xdescribe('DOM API', function() {
+describe('DOM API', function() {
+
+    beforeEach(beforeEach);
 
     it('should should deactivate with the DOM API', function() {
+
+        // set to enabled
+        fullToggle.activate();
+        expect(fullToggle.isActive()).toBe(true);
+
+        // click trigger
+        trigger.getElement().click();
+        expect(fullToggle.isActive()).toBe(false);
+
     });
 
     it('should should activate with the DOM API', function() {
+
+        // set to disabled
+        fullToggle.deactivate();
+        expect(fullToggle.isActive()).toBe(false);
+
+        // click trigger
+        trigger.getElement().click();
+        expect(fullToggle.isActive()).toBe(true);
+
     });
 
 });
