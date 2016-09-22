@@ -1,6 +1,7 @@
 'use strict';
 
 import TriggerInput from "./TriggerInput";
+import $$ from "../utils/QuerySelector";
 
 export default class TriggerInputChoice extends TriggerInput {
 

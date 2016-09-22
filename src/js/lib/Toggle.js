@@ -201,14 +201,12 @@ module.exports = class Toggle {
 
     _bind(bind = true){
 
-        let method = bind ? 'addEventListener' : 'removeEventListener';
+        // Listen to custom toggle-event
+        let method = bind ? 'subscribe' : 'unsubscribe';
+        this._mediator[method]('trigger', this._shortcuts.trigger);
 
-        // Listen to toggle-event
-        if(method){
-            this._mediator.subscribe('trigger', this._shortcuts.trigger);
-        } else {
-            this._mediator.unsubscribe('trigger', this._shortcuts.trigger);
-        }
+        // Listen to native events
+        method = bind ? 'addEventListener' : 'removeEventListener';
 
         // Listen to hashchange
         window[method]('hashchange', this._shortcuts.hashchange, false);
@@ -300,7 +298,6 @@ module.exports = class Toggle {
                 if(children[0]){
                     children[0].focus();
                 }
-                this._element.focus()
             }
 
         }
@@ -314,10 +311,8 @@ module.exports = class Toggle {
     deactivate(){
 
         if(this.isActive()){
-
             this._isActive = false;
             this.update();
-
         }
 
     }
@@ -481,8 +476,7 @@ module.exports = class Toggle {
      */
 
     hasActiveHash(){
-        var hash = window.location.hash.replace('#','');
-        return hash === this.getId();
+        return window.location.hash.replace('#','') === this.getId();
     }
 
     /**
@@ -497,7 +491,7 @@ module.exports = class Toggle {
             active = false;
 
         // loop through all triggers
-        triggers.forEach(function(t){
+        triggers.forEach((t) => {
             if(!active){
                 active = t.isActive();
             }
@@ -554,11 +548,7 @@ module.exports = class Toggle {
      * @param {Number} delay - The time to wait to close the Toggle.
      */
 
-    _startMouseTimer(delay){
-
-        if(!delay){
-            delay = 500;
-        }
+    _startMouseTimer(delay = 500){
 
         // start timer
         this._mouseTimer = setTimeout(() => {
@@ -585,42 +575,21 @@ module.exports = class Toggle {
     _onBodyClick(e){
 
         // target click
-        var target = e.target;
+        let target = e.target;
 
         // get triggers related to this toggle
-        var triggers = this._manager.getTriggersForToggle(this),
+        let triggers = this._manager.getTriggersForToggle(this),
             elements = [this._element],
             inside = false;
 
         // add elements of triggers to 'elements' array
-        triggers.forEach(function(t){
-            elements.push(t.getElement());
-        });
-
-        var isChildOf = function (element, parentElement) {
-            var parent = element;
-            do {
-
-                if (parent && parent === parentElement) {
-                    return true;
-                }
-
-                if (parent == document.documentElement) {
-                    break;
-                }
-
-                // jshint -W084
-            } while (parent = parent.parentNode);
-            return false;
-        };
+        triggers.forEach((t) => elements.push(t.getElement()));
 
         // check if click is on toggle or on triggers
-        elements.forEach(function(el){
-
-            if(isChildOf(target, el) && !inside){
+        elements.forEach((el) => {
+            if(Helpers.isChildOf(target, el) && !inside){
                 inside = true;
             };
-
         });
 
         if(!inside && this.isActive()){
@@ -639,12 +608,12 @@ module.exports = class Toggle {
         var hash = window.location.hash.replace('#', ''),
             oldHash = e.oldURL.substr(e.oldURL.indexOf('#')).replace('#', '');
 
-        if(hash === this.getId()){
-            this.isActive() ? null : this.activate();
+        if(hash === this.getId() && !this.isActive()){
+            this.activate();
         }
 
-        if(oldHash === this.getId()){
-            this.isActive() ? this.deactivate() : null;
+        if(oldHash === this.getId() && this.isActive()){
+            this.deactivate();
         }
 
     }

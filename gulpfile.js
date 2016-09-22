@@ -1,16 +1,13 @@
 var gulp = require("gulp"),
-    sourcemaps = require("gulp-sourcemaps"),
     babel = require("gulp-babel"),
-    concat = require("gulp-concat"),
     browserify = require("browserify"),
     babelify = require('babelify'),
-    through2 = require("through2"),
-    rename = require("gulp-rename"),
     browserSync = require('browser-sync').create(),
     Server = require('karma').Server,
     sass = require('gulp-sass'),
     plumber = require('gulp-plumber'),
-    print = require('gulp-print'),
+    uglify = require('gulp-uglify'),
+    buffer = require('vinyl-buffer'),
     source = require('vinyl-source-stream');
 
 var dirs = {
@@ -40,7 +37,9 @@ gulp.task("javascript", function () {
     return browserify({entries: './src/js/main.js', extensions: ['.js'], debug: true})
         .transform(babelify)
         .bundle()
-        .pipe(source('bundle.js'))
+        .pipe(source('bundle.js')) // gives streaming vinyl file object
+        .pipe(buffer()) // convert from streaming to buffered vinyl file object
+        .pipe(uglify()) // now gulp-uglify works
         .pipe(gulp.dest(dirs.dest));
 
 });
@@ -48,7 +47,7 @@ gulp.task("javascript", function () {
 gulp.task("compile", ["copy", "sass", "javascript"]);
 
 gulp.task("watch", function(){
-    gulp.watch(dirs.src + "/**/*", ["compile", "test"]);
+    gulp.watch(dirs.src + "/**/*", ["compile"]);
 });
 
 gulp.task("sass", function(){

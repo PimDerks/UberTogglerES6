@@ -176,7 +176,7 @@ export default class Focus {
      */
 
     _maintainFocus(e) {
-        if (this.isActive() && !this._element.contains(event.target)) {
+        if (this.isActive() && !this._element.contains(e.target)) {
             this._setFocusToFirstElement();
         }
     }
