@@ -26,15 +26,19 @@ export default class TriggerInputChoice extends TriggerInput {
      * @private
      */
 
-    _onChange(){
+    _onChange(e){
 
-        // Let the world know
-        this._mediator.publish('trigger', {
-            toggle: this,
-            id: this.getId(),
-            active: this.isActive(),
-            targets: this._targets
-        });
+        if(e.target === this._element || this.isActive()){
+
+            // Let the world know
+            this._mediator.publish('trigger', {
+                toggle: this,
+                id: this.getId(),
+                active: e.target === this._element ? this.isActive() : false,
+                targets: this._targets
+            });
+
+        }
 
     }
 
@@ -44,7 +48,9 @@ export default class TriggerInputChoice extends TriggerInput {
 
     activate(){
         super.activate();
-        this._element.checked = true;
+        if(!this._element.checked) {
+            this._element.checked = true;
+        }
     }
 
     /**
@@ -53,7 +59,9 @@ export default class TriggerInputChoice extends TriggerInput {
 
     deactivate(){
         super.deactivate();
-        this._element.checked = false;
+        if(this._element.checked) {
+            this._element.checked = false;
+        }
     }
 
     /**
@@ -81,8 +89,11 @@ export default class TriggerInputChoice extends TriggerInput {
 
         method = bind ? 'addEventListener' : 'removeEventListener';
 
+        // get related radio input
+        this._siblings = $$('input[name="' + this._element.name + '"]');
+
         // custom events
-        this._element[method]('change', this._shortcuts.change);
+        this._siblings.forEach(sibling => sibling[method]('change', this._shortcuts.change));
 
     }
 
