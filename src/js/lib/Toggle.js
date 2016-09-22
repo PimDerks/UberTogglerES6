@@ -2,10 +2,11 @@
 
 import Mediator from "../utils/Mediator";
 import Focus from "../utils/Focus";
+import Helpers from '../utils/Helpers';
 import Manager from "./Manager";
 import $$ from "../utils/QuerySelector";
 
-const focusableElements = ['a[href]', 'area[href]', 'input', 'select', 'textarea', 'button', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
+const focusableElements = Helpers.focusableElements;
 
 module.exports = class Toggle {
 

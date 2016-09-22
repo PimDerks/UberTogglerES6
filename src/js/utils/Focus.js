@@ -1,8 +1,9 @@
 'use strict';
 
 import $$ from "./QuerySelector";
+import Helpers from './Helpers';
 
-const focusableElements = ['a[href]', 'area[href]', 'input', 'select', 'textarea', 'button', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
+const focusableElements = Helpers.focusableElements;
 
 export default class Focus {
 
