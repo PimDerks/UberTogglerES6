@@ -50,7 +50,7 @@ gulp.task("javascript", function () {
 gulp.task("compile", ["copy", "sass", "javascript"]);
 
 gulp.task("watch", function(){
-    gulp.watch(dirs.src + "/**/*", ["compile"]);
+    gulp.watch(dirs.src + "/**/*", ["compile", "test"]);
 });
 
 gulp.task("sass", function(){
@@ -100,5 +100,4 @@ gulp.task("serve", function(){
 
 });
 
-// gulp.task("default", ["compile", "watch", "serve", "watch-dist", "test"]);
 gulp.task("default", ["compile", "watch", "serve", "watch-dist"]);

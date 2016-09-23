@@ -107,6 +107,78 @@ describe('Initial setup', function() {
 
 });
 
+describe('Merging options', function(){
+
+    var actual,
+        expected;
+
+    it('should use the default configuration set inside the module by default', function(){
+        actual = bareToggle._getOption('outside');
+        expected = false;
+        expect(actual).toBe(expected);
+
+    });
+
+    it('should overwrite the default configuration with configuration passed in via the constructor', function(){
+
+        expected = true;
+
+        var options = {
+            outside: true
+        }
+        // Overwrite via constructor
+        var newToggle,
+            newToggleNode = document.createElement('div');
+            newToggle = new Factory(newToggleNode, options).getToggle();
+
+        // Test constructor overwrite
+        actual = newToggle._getOption('outside', options);
+
+        expect(actual).toBe(expected);
+
+    });
+
+    it('should overwrite the default configuration with configuration passed in via the DOM', function(){
+
+        expected = false;
+
+        // Overwrite via DOM
+        var newToggle,
+         newToggleNode = document.createElement('div');
+         newToggleNode.setAttribute('data-outside', "true");
+         newToggle = new Factory(newToggleNode).getToggle();
+
+        // Test DOM overwrite
+        actual = newToggle._getOption('outside');
+        expect(actual).not.toBe(expected);
+
+    });
+
+    it('should overwrite options in this order: 1) constructor -> 2) DOM -> 3) default', function(){
+
+        expected = true;
+
+        // Create new node
+        var newToggle,
+            newToggleNode = document.createElement('div');
+
+        // Overwrite via constructor
+        var options = {
+            outside: true
+        };
+
+        // Try overwrite via DOM
+        newToggleNode.setAttribute('data-outside', "lorem");
+        newToggle = new Factory(newToggleNode, options).getToggle();
+
+        var actual = newToggle._options['outside'];
+
+        expect(actual).toBe(expected);
+
+    });
+
+});
+
 describe('State management', function(){
 
     beforeEach(beforeEach);
@@ -158,7 +230,7 @@ describe('JavaScript API', function() {
 
     beforeEach(beforeEach);
 
-    it('should should deactivate with the JavaScript API', function() {
+    it('should deactivate with the JavaScript API', function() {
 
         // set to disabled
         fullToggle.activate();
@@ -170,7 +242,7 @@ describe('JavaScript API', function() {
 
     });
 
-    it('should should activate with the JavaScript API', function() {
+    it('should activate with the JavaScript API', function() {
 
         // set to disabled
         fullToggle.deactivate();

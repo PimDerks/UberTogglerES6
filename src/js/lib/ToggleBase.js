@@ -94,7 +94,7 @@ module.exports = class ToggleBase {
 
         // 1st: If passed in to constructor, it has precedence
 
-        if(options && options[key]){
+        if(options && options.hasOwnProperty(key)){
             return options[key];
         }
 
