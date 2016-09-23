@@ -79,15 +79,49 @@ describe('A Toggle Group', function() {
 
     });
 
-    it('should be able to say if one of its Toggles is active', function(){
-
+    it('should be able to say if a Toggle is part of it: Toggle is not part of it)', function(done){
+        expected = false;
+        var toggle = createToggle('lorem-ipsum');
+        setTimeout(function(){
+            actual = newGroup.containsToggle(toggle);
+            expect(actual).toBe(expected);
+            done();
+        });
     });
 
-    it('should be able to say if a Toggle is part of it', function(){
-
+    it('should be able to say if a Toggle is part of it: Toggle is part of it', function(done){
+        expected = true;
+        var toggle = createToggle('group');
+        setTimeout(function(){
+            actual = newGroup.containsToggle(toggle);
+            expect(actual).toBe(expected);
+            done();
+        });
     });
 
     it('should be able to close/deactivate all its Toggles', function(){
+
+        // initially close all
+        newGroup._closeAll();
+
+        // initial
+        var initial = newGroup.getActiveToggles().length;
+
+        // activate two toggles
+        newToggle1.activate();
+        newToggle2.activate();
+
+        // temp
+        var temp = newGroup.getActiveToggles().length;
+
+        newGroup._closeAll();
+
+        // final
+        var final = newGroup.getActiveToggles().length;
+
+        expect(initial).toBe(0);
+        expect(temp).toBe(1);
+        expect(final).toBe(0);
 
     });
 
