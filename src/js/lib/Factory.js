@@ -66,7 +66,7 @@ export default class Factory {
                 toggle = new TriggerLink(node, options);
                 break;
             default:
-                if(node.hasAttribute('href') || node.hasAttribute('aria-controls')) {
+                if(node.hasAttribute('href') || node.hasAttribute('aria-controls') || node.nodeName.toLowerCase() === 'button') {
                     toggle = new Trigger(node, options);
                     break;
                 }
