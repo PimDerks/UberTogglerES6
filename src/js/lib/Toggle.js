@@ -242,7 +242,6 @@ module.exports = class Toggle {
         // set initial state
         this.isActive() ? this.activate() : this.deactivate();
 
-
     }
 
 

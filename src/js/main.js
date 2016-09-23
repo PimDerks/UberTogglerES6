@@ -11,10 +11,16 @@ toggles.forEach(t => {
     new Factory(t);
 });
 
+// create Toggles
+var standalone = $$('.standalone');
+standalone.forEach(t => {
+    new Factory(t);
+});
+
 // dynamic toggles
-var button = document.getElementById('add-toggle'),
-    count = [].slice.apply(document.getElementById('dynamic-buttons').querySelectorAll('button')).length;
+var button = document.getElementById('add-toggle');
 if(button) {
+    count = [].slice.apply(document.getElementById('dynamic-buttons').querySelectorAll('button')).length;
     button.addEventListener('click', function () {
 
         count++;

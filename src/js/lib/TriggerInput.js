@@ -57,7 +57,6 @@ export default class TriggerInput extends Trigger {
 
     activate(){
         super.activate();
-        this._element.value != '';
     }
 
     /**

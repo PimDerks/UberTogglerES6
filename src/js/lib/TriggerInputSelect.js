@@ -40,7 +40,7 @@ export default class TriggerInputSelect extends TriggerInput {
 
         let option = this._element.children[this._element.selectedIndex];
 
-        // Add targets from aria-controls attribute of selected option
+        // Add targets from aria-controls attribute of selected option and filter out duplicates
         if(option.hasAttribute('aria-controls')){
             let targets = option.getAttribute('aria-controls').split(' ');
             targets.forEach(t => {
@@ -94,12 +94,12 @@ export default class TriggerInputSelect extends TriggerInput {
 
     _bind(bind = true){
 
+        // custom events
         let method = bind ? 'subscribe' : 'unsubscribe';
         this._mediator[method]('toggle', this._shortcuts.toggle);
 
+        // native events
         method = bind ? 'addEventListener' : 'removeEventListener';
-
-        // custom events
         this._element[method]('change', this._shortcuts.change);
 
     }

@@ -85,15 +85,14 @@ export default class TriggerInputChoice extends TriggerInput {
      */
     _bind(bind = true){
 
+        // custom events
         let method = bind ? 'subscribe' : 'unsubscribe';
         this._mediator[method]('toggle', this._shortcuts.toggle);
+        this._mediator[method]('trigger', this._shortcuts.trigger);
 
+        // native events
         method = bind ? 'addEventListener' : 'removeEventListener';
-
-        // get related radio input
         this._siblings = $$('input[name="' + this._element.name + '"]');
-
-        // custom events
         this._siblings.forEach(sibling => sibling[method]('change', this._shortcuts.change));
 
     }
