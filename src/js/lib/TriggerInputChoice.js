@@ -88,7 +88,6 @@ export default class TriggerInputChoice extends TriggerInput {
         // custom events
         let method = bind ? 'subscribe' : 'unsubscribe';
         this._mediator[method]('toggle', this._shortcuts.toggle);
-        this._mediator[method]('trigger', this._shortcuts.trigger);
 
         // native events
         method = bind ? 'addEventListener' : 'removeEventListener';
