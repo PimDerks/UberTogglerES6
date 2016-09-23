@@ -11,8 +11,7 @@ module.exports = class ToggleBase {
     constructor(element, options) {
 
         this._element = element;
-        this._defaults = this._getDefaults();
-        this._options = this._mergeOptions(options);
+        this._options = Object.assign(this._getDefaults(), options);
 
         // Set ID of Toggle
         this._setId();
@@ -78,74 +77,6 @@ module.exports = class ToggleBase {
             ariaExpanded: false,
             ariaPressed: false,
             ariaChecked: false
-        }
-
-    }
-
-    /**
-     * Get the value of an option.
-     * @param {String} key - The key to check for in the options.
-     * @param {Object} options - The options passed in from the constructor
-     * @return {Boolean}
-     * @private
-     */
-
-    _getOption(key, options){
-
-        // 1st: If passed in to constructor, it has precedence
-
-        if(options && options.hasOwnProperty(key)){
-            return options[key];
-        }
-
-        // 2nd: DOM API
-
-        if(this._element.dataset[key]){
-            let attr = this._element.dataset[key];
-            switch(attr) {
-                case 'true':
-                    return true;
-                    break;
-                case 'false':
-                    return false;
-                    break;
-                default:
-                    return attr;
-            }
-        }
-
-        // 3rd: Defaults
-
-        if(this._defaults && this._defaults[key]){
-            return this._defaults[key];
-        }
-
-        // 4th: False
-
-        return false;
-
-    }
-
-    /**
-     * Merge options. First use options-object passed in to constructor, then DOM API, then defaults.
-     * @return {Object} The final options.
-     * @private
-     */
-
-    _mergeOptions(options){
-
-        return {
-            outside: this._getOption('outside', options),
-            focus: this._getOption('focus', options),
-            focusContain: this._getOption('focusContain', options),
-            focusExclude: this._getOption('focusExclude', options),
-            group: this._getOption('group', options),
-            activateOnly: this._getOption('activateOnly', options),
-            ariaHidden: this._getOption('ariaHidden', options),
-            ariaDisabled: this._getOption('ariaDisabled', options),
-            ariaExpanded: this._getOption('ariaExpanded', options),
-            ariaPressed: this._getOption('ariaPressed', options),
-            ariaChecked: this._getOption('ariaChecked', options)
         }
 
     }

@@ -37,10 +37,54 @@ export default class Factory {
         return this._toggle;
     }
 
+    _getOption(key, options){
+
+        if(options && options.hasOwnProperty(key)){
+            return options[key];
+        }
+
+        if(this._element.dataset[key]){
+            let attr = this._element.dataset[key];
+            switch(attr) {
+                case 'true':
+                    return true;
+                    break;
+                case 'false':
+                    return false;
+                    break;
+                default:
+                    return attr;
+            }
+        }
+
+        return null;
+
+    }
+
+    _getOptions(options){
+
+        let optionKeys = ['outside', 'focus', 'focusContain', 'focusExclude', 'group', 'activateOnly', 'ariaHidden', 'ariaDisabled', 'ariaExpanded', 'ariaPressed', 'ariaChecked'],
+            results = {}
+
+        optionKeys.forEach(option => {
+            // try to get option
+            var result = this._getOption(option, options);
+            if(result){
+                results[option] = result;
+            }
+        });
+
+        return results;
+
+    }
+
     _create(node, options = {}){
 
         let name = node.nodeName.toLowerCase(),
             toggle;
+
+        // merge options
+        options = this._getOptions(options);
 
         // check if this node is already a trigger
         if(node.id && this._manager.getToggleById(node.id)){

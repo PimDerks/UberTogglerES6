@@ -5,6 +5,7 @@ import Factory from "../lib/Factory.js";
 var fullToggle,
     fullToggleNode = document.createElement('div');
     fullToggleNode.className = 'full';
+    fullToggleNode.setAttribute('data-active', "true");
     fullToggleNode.id = 'full';
     fullToggle = new Factory(fullToggleNode, {
         ariaHidden: true,
@@ -22,6 +23,7 @@ var trigger,
 var bareToggle,
     bareToggleNode = document.createElement('div');
     bareToggleNode.className = 'bare';
+    bareToggleNode.setAttribute('data-active', "false");
     bareToggle = new Factory(bareToggleNode, {
         ariaHidden: false,
         ariaDisabled: false,
@@ -107,19 +109,18 @@ describe('Initial setup', function() {
 
 });
 
-describe('Merging options', function(){
+describe('Options/configuration', function(){
 
     var actual,
         expected;
 
-    it('should use the default configuration set inside the module by default', function(){
-        actual = bareToggle._getOption('outside');
+    it('should have a default, configured inside the module', function(){
+        actual = bareToggle._options['outside'];
         expected = false;
         expect(actual).toBe(expected);
-
     });
 
-    it('should overwrite the default configuration with configuration passed in via the constructor', function(){
+    it('passed in to the constructor overwrite the default configuration', function(){
 
         expected = true;
 
@@ -132,29 +133,31 @@ describe('Merging options', function(){
             newToggle = new Factory(newToggleNode, options).getToggle();
 
         // Test constructor overwrite
-        actual = newToggle._getOption('outside', options);
+        actual = newToggle._options['outside'];
 
         expect(actual).toBe(expected);
 
     });
 
-    it('should overwrite the default configuration with configuration passed in via the DOM', function(){
+    it('passed in via the DOM overwrite the default configuration', function(){
 
-        expected = false;
+        expected = true;
 
-        // Overwrite via DOM
+        // Create new node
         var newToggle,
-         newToggleNode = document.createElement('div');
-         newToggleNode.setAttribute('data-outside', "true");
-         newToggle = new Factory(newToggleNode).getToggle();
+            newToggleNode = document.createElement('div');
 
-        // Test DOM overwrite
-        actual = newToggle._getOption('outside');
-        expect(actual).not.toBe(expected);
+        // Try overwrite via DOM
+        newToggleNode.setAttribute('data-outside', "true");
+        newToggle = new Factory(newToggleNode).getToggle();
+
+        var actual = newToggle._options['outside'];
+
+        expect(actual).toBe(expected);
 
     });
 
-    it('should overwrite options in this order: 1) constructor -> 2) DOM -> 3) default', function(){
+    it('passed in via the constructor overwrite the DOM/default configuration', function(){
 
         expected = true;
 
@@ -201,7 +204,7 @@ describe('State management', function(){
     };
 
     it('should update the data-active attribute when toggled', function(){
-        checkAttribute(bareToggle, 'data-active');
+        checkAttribute(fullToggle, 'data-active');
     });
 
     it('should update the aria-hidden attribute (when that option is set to true) when toggled', function() {
@@ -260,44 +263,12 @@ describe('DOM API', function() {
 
     beforeEach(beforeEach);
 
-    it('should should deactivate with the DOM API', function() {
-
-        // set to enabled
-        fullToggle.activate();
+    it('should initially be activated with the DOM API\'s data-active attribute set to true', function() {
         expect(fullToggle.isActive()).toBe(true);
-
-        // click trigger
-        trigger.getElement().click();
-        expect(fullToggle.isActive()).toBe(false);
-
     });
 
-    it('should should activate with the DOM API', function() {
-
-        // set to disabled
-        fullToggle.deactivate();
-        expect(fullToggle.isActive()).toBe(false);
-
-        // click trigger
-        trigger.getElement().click();
-        expect(fullToggle.isActive()).toBe(true);
-
+    it('should initially be deactivated with the DOM API\'s data-active attribute set to false', function() {
+        expect(bareToggle.isActive()).toBe(false);
     });
 
 });
-
-xdescribe('Focus handling', function(){
-
-    it('should remove elements from the focus order when the focus-exclude option is active', function(){
-
-    });
-
-    it('should trap the focus when the focus-contain option is active', function(){
-
-    });
-
-    it('should receive focus when activated when the focus-option is active', function(){
-
-    });
-
-})
