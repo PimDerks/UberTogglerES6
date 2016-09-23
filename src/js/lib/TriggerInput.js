@@ -52,6 +52,17 @@ export default class TriggerInput extends Trigger {
     }
 
     /**
+     * Overwrite click event from default trigger.
+     * @param e
+     * @private
+     */
+
+
+    _onClick(){
+
+    }
+
+    /**
      * Activate this trigger.
      */
 
@@ -68,19 +79,6 @@ export default class TriggerInput extends Trigger {
         this._element.value == '';
     }
 
-    /**
-     * Get shortcuts to methods to bind, for easy binding and unbinding.
-     * @returns {{change: (function(this:TriggerInput)|*), keydown: (function(this:TriggerInput)|*)}}
-     * @private
-     */
-
-    _getShortcuts(){
-        return {
-            'toggle': this._onToggle.bind(this),
-            'change': this._onChange.bind(this),
-            'keydown': this._onKeyDown.bind(this)
-        }
-    }
 
     /**
      * Bind events.
@@ -89,14 +87,10 @@ export default class TriggerInput extends Trigger {
 
     _bind(bind = true){
 
+        super._bind(true);
+
         let method = bind ? 'subscribe' : 'unsubscribe';
         this._mediator[method]('toggle', this._shortcuts.toggle);
-
-        method = bind ? 'addEventListener' : 'removeEventListener';
-
-        // custom events
-        this._element[method]('change', this._shortcuts.change);
-        this._element[method]('keydown', this._shortcuts.keydown);
 
     }
 

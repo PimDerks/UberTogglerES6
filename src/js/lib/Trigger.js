@@ -1,8 +1,8 @@
 'use strict';
 
-import Toggle from "./Toggle";
+import ToggleBase from "./ToggleBase";
 
-export default class Trigger extends Toggle {
+export default class Trigger extends ToggleBase {
 
     constructor(element, options) {
 
@@ -33,19 +33,6 @@ export default class Trigger extends Toggle {
         // update
         this.update();
 
-    }
-
-    /**
-     * Get object of methods, for easy binding and unbinding.
-     * @return {Object}
-     * @private
-     */
-
-    _getShortcuts(){
-        return {
-            'click': this._onClick.bind(this),
-            'toggle': this._onToggle.bind(this)
-        }
     }
 
     /**
@@ -80,11 +67,10 @@ export default class Trigger extends Toggle {
 
     _bind(bind = true){
 
+        super._bind(bind);
+
         let method = bind ? 'subscribe' : 'unsubscribe';
         this._mediator[method]('toggle', this._shortcuts.toggle);
-
-        method = bind ? 'addEventListener' : 'removeEventListener';
-        this._element[method]('click', this._shortcuts.click);
 
     }
 
@@ -126,6 +112,9 @@ export default class Trigger extends Toggle {
 
         let result = [];
 
+        // Get own id
+        result.push(this.getId());
+
         // Get ID from href in case the trigger is anchor
         if(this._element.nodeName.toLowerCase() === 'a'){
             let href = this._element.getAttribute('href');
@@ -154,10 +143,6 @@ export default class Trigger extends Toggle {
 
         let matches = [];
 
-        if(this._element.id === e.id) {
-            return false;
-        }
-
         // If the Event has an array of targets, check if those targets match the targets of this trigger.
         if(e.targets){
             matches = this._targets.filter(t => {
@@ -181,14 +166,17 @@ export default class Trigger extends Toggle {
 
     _onClick(e){
 
-        // Let the world know
-        this._mediator.publish('trigger', {
-            toggle: this,
-            id: this.getId(),
-            active: this.isActive(),
-            targets: this._targets
-        });
-
+        if(this._targets.length > 1) {
+            // Let the world know
+            this._mediator.publish('trigger', {
+                toggle: this,
+                id: this.getId(),
+                active: this.isActive(),
+                targets: this._targets
+            });
+        } else {
+            this.toggle();
+        }
 
     }
 
@@ -200,7 +188,10 @@ export default class Trigger extends Toggle {
 
     _onToggle(e){
 
-        if(this.eventMatch(e)){
+        var match = this.eventMatch(e),
+            matchId = this.getId() === e.id;
+
+        if(match && !matchId){
             super.sync(e.active);
         }
 

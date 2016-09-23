@@ -66,24 +66,13 @@ export default class TriggerInputChoice extends TriggerInput {
     }
 
     /**
-     * Get shortcuts to methods to bind, for easy binding and unbinding.
-     * @returns {{change: (function(this:TriggerInput)|*), keydown: (function(this:TriggerInput)|*)}}
-     * @private
-     */
-
-    _getShortcuts(){
-        return {
-            'toggle': this._onToggle.bind(this),
-            'change': this._onChange.bind(this)
-        }
-    }
-
-    /**
      * Bind events.
      * @param {Boolean} (bind)
      * @private
      */
     _bind(bind = true){
+
+        super._bind(bind);
 
         // custom events
         let method = bind ? 'subscribe' : 'unsubscribe';
