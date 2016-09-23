@@ -131,6 +131,7 @@ class Manager {
     getToggleGroupById(id){
 
         for (let group in this._groups) {
+
             if (group === id) {
                 return this._groups[group];
             }

@@ -7,8 +7,6 @@ import Manager from "./Manager";
 import $$ from "../utils/QuerySelector";
 import ToggleBase from "./ToggleBase.js";
 
-const focusableElements = Helpers.focusableElements;
-
 module.exports = class Toggle extends ToggleBase {
 
     constructor(element, options) {

@@ -84,28 +84,16 @@ export default class Group {
     }
 
     /**
-     * Check if one of the Toggles in this group is active.
-     *
-     * @returns {boolean}
-     */
-
-    hasActiveToggle(){
-        return this._toggles.filter(t => {
-            return t.isActive();
-        }).length > 0;
-    }
-
-    /**
      * Get the currently active Toggle.
      *
-     * @returns {*} Toggle object when a toggle is active. Otherwise false.
+     * @returns {Array} Array of active Toggles
      */
 
-    getActiveToggle(){
+    getActiveToggles(){
         var active = this._toggles.filter(function(t){
             return t.isActive();
         });
-        return active[0] || false;
+        return active || [];
     }
 
     /**
@@ -138,7 +126,7 @@ export default class Group {
 
     remove(Toggle) {
 
-        this._toggles.forEach(t, i => {
+        this._toggles.forEach((t, i) => {
 
             if (t == Toggle) {
                 this._toggles.splice(i, 1);
