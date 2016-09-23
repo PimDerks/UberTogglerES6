@@ -8,7 +8,8 @@ var gulp = require("gulp"),
     plumber = require('gulp-plumber'),
     uglify = require('gulp-uglify'),
     buffer = require('vinyl-buffer'),
-    source = require('vinyl-source-stream');
+    source = require('vinyl-source-stream'),
+    sourcemaps = require('gulp-sourcemaps');
 
 var dirs = {
     src: './src',
@@ -39,7 +40,9 @@ gulp.task("javascript", function () {
         .bundle()
         .pipe(source('bundle.js')) // gives streaming vinyl file object
         .pipe(buffer()) // convert from streaming to buffered vinyl file object
+        .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(uglify()) // now gulp-uglify works
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest(dirs.dest));
 
 });
