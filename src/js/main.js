@@ -20,7 +20,7 @@ standalone.forEach(t => {
 // dynamic toggles
 var button = document.getElementById('add-toggle');
 if(button) {
-    count = [].slice.apply(document.getElementById('dynamic-buttons').querySelectorAll('button')).length;
+    var count = [].slice.apply(document.getElementById('dynamic-buttons').querySelectorAll('button')).length;
     button.addEventListener('click', function () {
 
         count++;
