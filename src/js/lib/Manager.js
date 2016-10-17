@@ -14,8 +14,6 @@ class Manager {
             _instance = this;
         }
 
-        return _instance;
-
     }
 
     /**
@@ -55,7 +53,7 @@ class Manager {
         }
 
         // remove from this._toggles
-        this._toggles.forEach(t, i => {
+        this._toggles.forEach((t, i) => {
             if (t === Toggle) {
                 this._toggles.splice(i, 1);
             }
@@ -113,7 +111,9 @@ class Manager {
     getToggleById(id){
 
         // loop through all toggles to find the one with the given ID
-        let result = this._toggles.filter(t => { return t.getId() === id });
+        let result = this._toggles.filter(t => {
+            return t.getId() === id
+        });
 
         if(result.length > 0) {
             return result[0];

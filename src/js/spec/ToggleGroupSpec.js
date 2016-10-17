@@ -24,7 +24,7 @@ describe('A Toggle Group', function() {
     beforeEach(
         function(done){
             setTimeout(() => {
-                newGroup = Manager.getToggleGroupById('group')
+                newGroup = Manager.getToggleGroupById('group');
                 done();
             });
         }

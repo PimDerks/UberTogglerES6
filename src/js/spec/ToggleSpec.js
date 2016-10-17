@@ -1,6 +1,7 @@
 'use strict';
 
 import Factory from "../lib/Factory.js";
+import Manager from "../lib/Manager";
 
 var fullToggle,
     fullToggleNode = document.createElement('div');
@@ -32,11 +33,12 @@ var bareToggle,
         ariaChecked: false
     }).getToggle();
 
-var beforeEach = function(){
-    fullToggle.register();
-    fullToggle.update();
-    bareToggle.register();
-    bareToggle.update();
+fullToggle.register();
+fullToggle.update();
+bareToggle.register();
+bareToggle.update();
+
+var beforeEachFunc = function(){
 };
 
 describe('Initial setup', function() {
@@ -44,7 +46,7 @@ describe('Initial setup', function() {
     var actual,
         expected;
 
-    beforeEach(beforeEach);
+    beforeEach(beforeEachFunc);
 
     it('should add an ID to the node when it does not exist', function(){
         actual = bareToggle.getElement().id !== '';
@@ -184,7 +186,7 @@ describe('Options/configuration', function(){
 
 describe('State management', function(){
 
-    beforeEach(beforeEach);
+    beforeEach(beforeEachFunc);
 
     var checkAttribute = function(toggle, attr, reverse){
 
@@ -231,7 +233,7 @@ describe('State management', function(){
 
 describe('JavaScript API', function() {
 
-    beforeEach(beforeEach);
+    beforeEach(beforeEachFunc);
 
     it('should deactivate with the JavaScript API', function() {
 
@@ -259,9 +261,9 @@ describe('JavaScript API', function() {
 
 });
 
-describe('DOM API', function() {
+describe('Using the DOM API, a Toggle', function() {
 
-    beforeEach(beforeEach);
+    beforeEach(beforeEachFunc);
 
     it('should initially be activated with the DOM API\'s data-active attribute set to true', function() {
         expect(fullToggle.isActive()).toBe(true);
@@ -269,6 +271,75 @@ describe('DOM API', function() {
 
     it('should initially be deactivated with the DOM API\'s data-active attribute set to false', function() {
         expect(bareToggle.isActive()).toBe(false);
+    });
+
+});
+
+var destroyNode,
+    destroyToggle;
+
+var beforeEachDestroy = function() {
+    destroyNode = document.createElement('div');
+    destroyNode.setAttribute('aria-disabled', 'true');
+    destroyToggle = new Factory(destroyNode, {
+        ariaHidden: true
+    }).getToggle();
+
+    destroyToggle.register();
+    destroyToggle.update();
+
+};
+
+
+describe('When destroying a Toggle', function() {
+
+    beforeEach(beforeEachDestroy);
+
+    it('should remove attributes added to the DOM', function() {
+
+        // Check if aria-hidden is initially there
+        var attr = destroyNode.getAttribute('aria-hidden') === 'true';
+        expect(attr).toBe(true);
+
+        // Destroy
+        destroyToggle.destroy();
+
+        // Check if aria-hidden is no longer there
+        var attr = destroyNode.getAttribute('aria-hidden');
+        expect(attr).toBe(null);
+
+    });
+
+    it('should NOT remove attributes already in the DOM when initialized', function(){
+
+        // Check if aria-disabled is initially there
+        var attr = destroyNode.getAttribute('aria-disabled') === 'true';
+        expect(attr).toBe(true);
+
+        // Destroy
+        destroyToggle.destroy();
+
+        // Check if aria-hidden is still there
+        var attr = destroyNode.getAttribute('aria-disabled') === 'true';
+        expect(attr).toBe(true);
+
+    });
+
+    it('should be removed from the Manager', function() {
+
+        var id = destroyToggle.getId();
+
+        // Check that it initially exists
+        var exists = Manager.getToggleById(id);
+        expect(exists).toBe(destroyToggle);
+
+        // Destroy
+        destroyToggle.destroy();
+
+        // Check that it no longer exists
+        exists = Manager.getToggleById(id);
+        expect(exists).toBe(false);
+
     });
 
 });

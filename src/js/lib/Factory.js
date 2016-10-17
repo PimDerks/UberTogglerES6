@@ -91,6 +91,9 @@ export default class Factory {
             return;
         }
 
+        // console.log('create toggle for element #', node.id);
+
+
         switch(name){
             case 'select':
                 toggle = new TriggerInputSelect(node, options);

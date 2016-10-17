@@ -8,12 +8,16 @@ import $$ from "../utils/QuerySelector";
 
 const focusableElements = Helpers.focusableElements;
 
-module.exports = class ToggleBase {
+const attributesToRestore = ['aria-hidden', 'aria-disabled', 'aria-expanded', 'aria-pressed', 'aria-checked', 'data-active', 'class'];
+const attributesCached = {};
+
+export default class ToggleBase {
 
     constructor(element, options) {
 
         this._element = element;
         this._options = Object.assign(this._getDefaults(), options);
+
 
         // Set ID of Toggle
         this._setId();
@@ -30,9 +34,32 @@ module.exports = class ToggleBase {
         // Shortcuts for events
         this._shortcuts = this._getShortcuts();
 
+        // Save initial attributes
+        this._saveInitialAttributes();
+
         // initialize toggle
         this._initialize();
 
+    }
+
+    _saveInitialAttributes(){
+        attributesToRestore.forEach(a => {
+            let getAttr = this._element.getAttribute(a);
+            if(getAttr) {
+                attributesCached[a] = getAttr;
+            }
+        });
+    }
+
+    _restoreInitialAttributes(){
+        attributesToRestore.forEach(a => {
+            let getAttr = attributesCached[a];
+            if(getAttr){
+                this._element.setAttribute(a, getAttr);
+            } else {
+                this._element.removeAttribute(a);
+            }
+        });
     }
 
     /**
@@ -480,7 +507,24 @@ module.exports = class ToggleBase {
      * @param {Event} e - The HashChange-event thrown by the browser.
      */
 
-    _onHashChange(e){
+    _onHashChange(e) {
+    }
+
+    /**
+     * Destroy Toggle
+     */
+
+    destroy(){
+
+        // unregister
+        this._manager.remove(this);
+
+        // remove event listeners
+        this._bind(true);
+
+        // restore attributes
+        this._restoreInitialAttributes();
+
     }
 
 }

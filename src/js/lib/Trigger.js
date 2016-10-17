@@ -197,4 +197,14 @@ export default class Trigger extends ToggleBase {
 
     }
 
+    destroy(){
+
+        // call super
+        super.destroy();
+
+        // remove local events
+        this._bind(true);
+
+    }
+
 }

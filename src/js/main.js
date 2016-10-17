@@ -17,6 +17,26 @@ standalone.forEach(t => {
     new Factory(t);
 });
 
+// initializing and destroying toggles
+var buttonInit = document.getElementById('init-toggle'),
+    buttonDestroy = document.getElementById('destroy-toggle'),
+    toggleDestroy,
+    toInit;
+
+buttonInit.addEventListener('click', function(){
+    toInit = document.getElementById('toggle-destroy');
+    toggleDestroy = new Factory(toInit).getToggle();
+    toInit.classList.add('toggle');
+});
+
+buttonDestroy.addEventListener('click', function(){
+    if(toggleDestroy) {
+        toggleDestroy.destroy();
+        toInit = document.getElementById('toggle-destroy');
+        toInit.classList.remove('toggle');
+    }
+});
+
 // dynamic toggles
 var button = document.getElementById('add-toggle');
 if(button) {

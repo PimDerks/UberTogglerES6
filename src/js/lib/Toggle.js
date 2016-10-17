@@ -7,7 +7,7 @@ import Manager from "./Manager";
 import $$ from "../utils/QuerySelector";
 import ToggleBase from "./ToggleBase.js";
 
-module.exports = class Toggle extends ToggleBase {
+export default class Toggle extends ToggleBase {
 
     constructor(element, options) {
 
@@ -178,6 +178,16 @@ module.exports = class Toggle extends ToggleBase {
         if(oldHash === this.getId() && this.isActive()){
             this.deactivate();
         }
+
+    }
+
+    destroy(){
+
+        // call super
+        super.destroy();
+
+        // remove local events
+        this._bind(true);
 
     }
 
