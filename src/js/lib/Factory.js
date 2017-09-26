@@ -63,7 +63,7 @@ export default class Factory {
 
     _getOptions(options){
 
-        let optionKeys = ['outside', 'focus', 'focusContain', 'focusExclude', 'group', 'activateOnly', 'ariaHidden', 'ariaDisabled', 'ariaExpanded', 'ariaPressed', 'ariaChecked'],
+        let optionKeys = ['outside', 'focus', 'focusContain', 'focusExclude', 'group', 'activateOnly', 'ariaHidden', 'ariaDisabled', 'ariaExpanded', 'ariaPressed', 'ariaChecked', 'ariaCurrent'],
             results = {}
 
         optionKeys.forEach(option => {

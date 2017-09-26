@@ -8,7 +8,7 @@ import $$ from "../utils/QuerySelector";
 
 const focusableElements = Helpers.focusableElements;
 
-const attributesToRestore = ['aria-hidden', 'aria-disabled', 'aria-expanded', 'aria-pressed', 'aria-checked', 'data-active', 'class'];
+const attributesToRestore = ['aria-hidden', 'aria-disabled', 'aria-expanded', 'aria-pressed', 'aria-checked', 'aria-current', 'data-active', 'class'];
 const attributesCached = {};
 
 export default class ToggleBase {
@@ -17,7 +17,6 @@ export default class ToggleBase {
 
         this._element = element;
         this._options = Object.assign(this._getDefaults(), options);
-
 
         // Set ID of Toggle
         this._setId();
@@ -101,11 +100,12 @@ export default class ToggleBase {
             focusExclude: false,
             group: false,
             activateOnly: false,
+            ariaCurrent: false,
             ariaHidden: false,
             ariaDisabled: false,
             ariaExpanded: false,
             ariaPressed: false,
-            ariaChecked: false
+            ariaChecked: false,
         }
 
     }
@@ -270,6 +270,11 @@ export default class ToggleBase {
         // Set aria-hidden state
         if(this._options.ariaHidden){
             this._element.setAttribute('aria-hidden', !this.isActive());
+        }
+
+        // Set aria-current state
+        if(this._options.ariaCurrent){
+            this._element.setAttribute('aria-current', this.isActive());
         }
 
         // Set aria-disabled state

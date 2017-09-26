@@ -189,6 +189,19 @@
                     <button type="button" aria-controls="focus-exclude">Deactivate toggle</button>
                 </div>
 
+                <h4>Accessibility</h4>
+
+                <h5>ARIA-current</h5>
+                <select aria-controls="select-1 select-2 select-3" class="trigger">
+                    <option value="1" aria-controls="select-1">Toggle 1</option>
+                    <option value="2" aria-controls="select-2">Toggle 2</option>
+                    <option value="3" aria-controls="select-3">Toggle 3</option>
+                </select>
+                <div class="toggle" id="select-1" data-group="select" data-aria-current="true">Toggle 1</div>
+                <div class="toggle" id="select-2" data-group="select" data-aria-current="true">Toggle 2</div>
+                <div class="toggle" id="select-3" data-group="select" data-aria-current="true">Toggle 3</div>
+
+
             </section>
 
             <section id="examples-advanced">
@@ -497,67 +510,73 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <th scope="col">Outside</th>
+                    <th scope="row">Outside</th>
                     <td><code>outside</code></td>
                     <td><code>data-outside</code></td>
                     <td>false</td>
                 </tr>
                 <tr>
-                    <th scope="col">Group</th>
+                    <th scope="row">Group</th>
                     <td><code>group</code></td>
                     <td><code>data-group</code></td>
                     <td></td>
                 </tr>
                 <tr>
-                    <th scope="col">Activate Only</th>
+                    <th scope="row">Activate Only</th>
                     <td><code>activateOnly</code></td>
                     <td><code>data-activate-only</code></td>
                     <td>false</td>
                 </tr>
                 <tr>
-                    <th scope="col">Focus</th>
+                    <th scope="row">Focus</th>
                     <td><code>focus</code></td>
                     <td><code>data-focus</code></td>
                     <td>false</td>
                 </tr>
                 <tr>
-                    <th scope="col">Focus Contain</th>
+                    <th scope="row">Focus Contain</th>
                     <td><code>focusContain</code></td>
                     <td><code>data-focus-contain</code></td>
                     <td>false</td>
                 </tr>
                 <tr>
-                    <th scope="col">Focus Exclude</th>
+                    <th scope="row">Focus Exclude</th>
                     <td><code>focus-exclude</code></td>
                     <td><code>data-focus-exclude</code></td>
                     <td>false</td>
                 </tr>
                 <tr>
-                    <th scope="col">aria-hidden</th>
+                    <th scope="row">aria-hidden</th>
                     <td><code>ariaHidden</code></td>
                     <td><code>data-aria-hidden</code></td>
                     <td>false</td>
                 </tr>
                 <tr>
-                    <th scope="col">aria-disabled</th>
+                    <th scope="row">aria-current</th>
+                    <td><code>ariaCurrent</code></td>
+                    <td><code>data-aria-current</code></td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <th scope="row">aria-disabled</th>
                     <td><code>ariaDisabled</code></td>
                     <td><code>data-aria-disabled</code></td>
                     <td>false</td>
                 </tr>
                 <tr>
-                    <th scope="col">aria-expanded</th>
+                    <th scope="row">aria-expanded</th>
                     <td><code>ariaExpanded</code></td>
                     <td><code>data-aria-expanded</code></td>
                     <td>false</td>
                 </tr>
                 <tr>
-                    <th scope="col">aria-pressed</th>
+                    <th scope="row">aria-pressed</th>
                     <td><code>ariaPressed</code></td>
                     <td><code>data-aria-pressed</code></td>
                     <td>false (true when <code>button</code>-element)</td>
                 </tr>
                 <tr>
-                    <th scope="col">aria-checked</th>
+                    <th scope="row">aria-checked</th>
                     <td><code>ariaChecked</code></td>
                     <td><code>data-aria-checked</code></td>
                     <td>false (true when <code>input[type="checkbox"]</code> or <code>input[type="radio"]</code></td>

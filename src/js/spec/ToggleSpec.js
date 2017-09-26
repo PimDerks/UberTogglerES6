@@ -13,7 +13,8 @@ var fullToggle,
         ariaDisabled: true,
         ariaExpanded: true,
         ariaPressed: true,
-        ariaChecked: true
+        ariaChecked: true,
+        ariaCurrent: true
     }).getToggle();
 
 var trigger,
@@ -30,7 +31,8 @@ var bareToggle,
         ariaDisabled: false,
         ariaExpanded: false,
         ariaPressed: false,
-        ariaChecked: false
+        ariaChecked: false,
+        ariaCurrent: false
     }).getToggle();
 
 fullToggle.register();
@@ -227,6 +229,10 @@ describe('State management', function(){
 
     it('should update the aria-checked attribute (when that option is set to true) when toggled', function() {
         checkAttribute(fullToggle, 'aria-checked');
+    });
+
+    it('should update the aria-current attribute (when that option is set to true) when toggled', function() {
+        checkAttribute(fullToggle, 'aria-current');
     });
 
 });
